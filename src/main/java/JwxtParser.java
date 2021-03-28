@@ -36,6 +36,8 @@ public class JwxtParser {
             reader = new BufferedReader(new FileReader(student_info));
             while ((one_student=reader.readLine())!=null){
                 System.out.println(one_student);
+                String[] s_info = one_student.split(",");
+                System.out.println("hello");
             }
         } catch (Exception e) {
 

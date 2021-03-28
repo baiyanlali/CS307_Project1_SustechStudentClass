@@ -40,3 +40,17 @@ CREATE TABLE Teachers(
 	--因为有可能会有一个很长的英文名:GARG NAVEEN KUMAR
 	name varchar(30) not null
 );
+
+CREATE TABLE Student(
+      name varchar(30) not null,
+      gender varchar(2),
+      college varchar(20) not null,
+      student_id varchar(8) primary key
+
+);
+
+CREATE TABLE CourseDone(
+    student_id varchar(8) references Student(student_id),
+    course_id varchar(16) references course(courseId)
+
+);

@@ -102,8 +102,30 @@ class Location{
 }
 
 //TODO: the most important and difficult content
-class Prerequisite{
+class Prerequisite {
     Course now_course;//当前的course
     long id;//当前语句
+
+}
+
+
+class Student {
+    String name;
+    String gender;
+    String college;
+    String student_id;
+    ArrayList<String> courses_done;
+
+    Student(String[] info) {
+        name = info[0];
+        gender = info[1];
+        college = info[2];
+        student_id = info[3];
+        courses_done = new ArrayList<>();
+        for (int i = 4; i < info.length; i++) {
+            courses_done.add(info[i]);
+        }
+    }
+
 
 }
