@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-// TODO: import the json library of your choice
 
 public class JwxtParser {
     public static List<CourseRAW> courses;
@@ -64,7 +63,7 @@ public class JwxtParser {
 }
 
 class CourseRAW {
-    // TODO:
+    // TODO:prerequisite question
     public int totalCapacity;
     public String courseId;
     public String prerequisite;
@@ -78,7 +77,6 @@ class CourseRAW {
 }
 
 class ClassListRAW {
-    // TODO: define data-class as the json structure
     public int[] weekList;
     public String location;
     public String classTime;
