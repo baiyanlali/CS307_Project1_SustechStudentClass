@@ -1,5 +1,5 @@
 CREATE TABLE course(
-	courseId varchar(8)  not null primary key ,
+	courseId varchar(16)  not null primary key ,
 	totalCapacity smallint not null check ( totalCapacity > 0 ),
 	courseName varchar(30)  not null,
 	courseHour smallint not null check ( courseHour>0 ),
@@ -8,12 +8,12 @@ CREATE TABLE course(
 );
 
 CREATE TABLE class(
-	classId varchar(38) primary key,
+	classId varchar(46) primary key,
 	className varchar(20) not null
 );
 
 CREATE TABLE class_list(
-	classId varchar(38) references class(classId),
+	classId varchar(46) references class(classId),
 	--TODO: change this str to another table
 	weekList varchar(24) not null,
 	location varchar(20) not null,
@@ -25,12 +25,12 @@ CREATE TABLE class_list(
 );
 
 CREATE TABLE cc_linker(
-	courseId varchar(8) references course(courseId),
-	classId varchar(38) references class(classId)
+	courseId varchar(16) references course(courseId),
+	classId varchar(46) references class(classId)
 );
 
 CREATE TABLE Teacher_linker(
-	classId varchar(38) references class(classId),
+	classId varchar(46) references class(classId),
 	teacherId varchar(10) references Teachers(teacherId)
 );
 
