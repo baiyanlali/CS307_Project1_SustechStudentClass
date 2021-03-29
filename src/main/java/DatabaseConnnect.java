@@ -38,7 +38,6 @@ public class DatabaseConnnect {
         }
     }
 
-
     static void SendToDataBase(Student student) {
         if (connection != null) {
             String sql = "insert into Student (name,gender,college,student_id) values (?,?,?,?)";
@@ -88,7 +87,52 @@ public class DatabaseConnnect {
         }
     }
 
+    static void SendToDataBase(Teacher teacher) {
+        if (connection != null) {
+            String sql = "insert into teacher(teacherId,name value(?,?)";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, teacher.teacher_id);
+                preparedStatement.setString(2, teacher.names);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
 
+            }
+        }
+    }
+    static void SendToDataBase(Class class1){
+        if(connection!=null){
+            String sql="insert into class(classId,className value(?,?))";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, class1.class_id);
+                preparedStatement.setString(2, class1.class_name);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        }
+    }
+    static void SendToDataBase(ClassList classlist,Class class1){
+        if(connection!=null){
+            String sql="insert into class_list(classId,weekList,location,classTime,weekday value(?,?,?,?,?))";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, class1.class_id);
+                preparedStatement.setString(2, classlist.week_list);
+                preparedStatement.setString(3,classlist.location);
+                preparedStatement.setString(4,classlist.);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        }
+    }
+    static void SendToDataBase(){
+
+    }
 }
-
 
