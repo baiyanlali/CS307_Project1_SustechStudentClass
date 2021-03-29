@@ -37,7 +37,7 @@ public class JwxtParser {
             while ((one_student=reader.readLine())!=null){
                 System.out.println(one_student);
                 String[] s_info = one_student.split(",");
-                System.out.println("hello");
+                //System.out.println("hello");
             }
         } catch (Exception e) {
 

@@ -4,7 +4,7 @@ CREATE TABLE course(
 	courseName varchar(30)  not null,
 	courseHour smallint not null check ( courseHour>0 ),
 	courseDept varchar(20) not null,
-	courseCredit smallint check((courseCredit>0) and (courseCredit<100))
+	courseCredit float check((courseCredit>0) and (courseCredit<100))
 );
 
 CREATE TABLE class(
@@ -43,7 +43,7 @@ CREATE TABLE Teachers(
 
 CREATE TABLE Student(
       name varchar(30) not null,
-      gender varchar(2),
+      gender varchar(3),
       college varchar(20) not null,
       student_id varchar(8) primary key
 
@@ -52,5 +52,4 @@ CREATE TABLE Student(
 CREATE TABLE CourseDone(
     student_id varchar(8) references Student(student_id),
     course_id varchar(16) references course(courseId)
-
 );
