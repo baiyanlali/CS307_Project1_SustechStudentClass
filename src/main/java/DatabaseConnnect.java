@@ -38,6 +38,7 @@ public class DatabaseConnnect {
         }
     }
 
+
     static void SendToDataBase(Student student) {
         if (connection != null) {
             String sql = "insert into Student (name,gender,college,student_id) values (?,?,?,?)";
@@ -65,23 +66,23 @@ public class DatabaseConnnect {
         }
     }
 
-    static void SendToDataBase(Course course){
-        if(connection!=null){
-            String sql="insert into course(courseID,totalCapacity,courseName," +
-                        "courseHour,courseDept,courseCredit) value(?,?,?,?,?,?)";
+    static void SendToDataBase(Course course) {
+        if (connection != null) {
+            String sql = "insert into course(courseID,totalCapacity,courseName," +
+                    "courseHour,courseDept,courseCredit) value(?,?,?,?,?,?)";
             try {
-                    PreparedStatement preparedStatement=connection.prepareStatement(sql);
-                    preparedStatement.setString(1,course.course_id);
-                    preparedStatement.setInt(2,course.total_capacity);
-                    preparedStatement.setString(3,course.course_name);
-                    preparedStatement.setInt(4,course.course_hour);
-                    preparedStatement.setString(5,course.course_departure);
-                    preparedStatement.setFloat(6,course.course_credit);
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, course.course_id);
+                preparedStatement.setInt(2, course.total_capacity);
+                preparedStatement.setString(3, course.course_name);
+                preparedStatement.setInt(4, course.course_hour);
+                preparedStatement.setString(5, course.course_departure);
+                preparedStatement.setFloat(6, course.course_credit);
 
-                    preparedStatement.execute();
-            }catch (SQLException e){
-                    e.printStackTrace();
-            }finally {
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
 
             }
         }

@@ -71,28 +71,43 @@ class Teacher{
         this.names=name;
     }
     Teacher(String name){
-        this.names=name;
+        this.names = name;
     }
+
     @Override
     public int hashCode() {
 //        return teacher_id+names.hashCode();
         return names.hashCode();
     }
 }
+
 //为了能通过class找到class_list, 将 classlist的引用放在class中，而不是像数据库那样反过来
-class ClassList{
-    int[] week_list;
+class ClassList {
+    //int[] week_list;
+    String week_list;
     int week_day;
     String location;
     int start_time;
     int end_time;
-    ClassList(ClassListRAW clw){
-        week_list=clw.weekList;
-        week_day= clw.weekday;
-        location=clw.location;
-        String[] class_time=clw.classTime.split("-");
-        start_time=Integer.parseInt(class_time[0]);
-        end_time=Integer.parseInt(class_time[1]);
+
+    ClassList(ClassListRAW clw) {
+//        week_list=clw.weekList;
+        week_list = "";
+        int maxWeek = clw.weekList[clw.weekList.length - 1];
+        int index = 0;
+        for (int i = 1; i <= maxWeek; i++) {
+            if (clw.weekList[index] == i) {
+                week_list = week_list.concat("1");
+                index++;
+            } else {
+                week_list = week_list.concat("0");
+            }
+        }
+        week_day = clw.weekday;
+        location = clw.location;
+        String[] class_time = clw.classTime.split("-");
+        start_time = Integer.parseInt(class_time[0]);
+        end_time = Integer.parseInt(class_time[1]);
     }
 
 }
@@ -104,7 +119,8 @@ class Location{
 //TODO: the most important and difficult content
 class Prerequisite {
     Course now_course;//当前的course
-    long id;//当前语句
+    long id;//当前语句id
+
 
 }
 

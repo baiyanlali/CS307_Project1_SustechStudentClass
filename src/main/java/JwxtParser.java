@@ -15,9 +15,13 @@ import java.util.List;
 public class JwxtParser {
     public static List<CourseRAW> courses;
 
+    static DatabaseConnnect databaseConnnect;
+    static HashMap<String, Course> courseHashMap;
+    static ArrayList<Class> classes;
+    static HashSet<Teacher> teachers;
+
     // Run as: jshell JwxtParser.java <json file>
     public static void main(String[] args) throws IOException {
-//        Path path = Path.of("src/main/java/data/course_info.json");
         Path path = Path.of(args[0]);
         System.out.println(path.isAbsolute());
         System.out.println(path.getRoot());
@@ -27,17 +31,23 @@ public class JwxtParser {
         }.getType());
         parseCourseRAW();
 
-//        path=Path.of("src/main/java/data/select_course.csv");
+        // change to your own content to connect this database
+        //String url = "jdbc:postgresql://localhost:5432/CS307_SustechStudentClass";
+        //String user = "byll";
+        //String password = "123456";
+        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
+                "byll",
+                "123456");
 
         File student_info = new File("src/main/java/data/select_course.csv");
         BufferedReader reader = null;
         try {
             String one_student = null;
             reader = new BufferedReader(new FileReader(student_info));
-            while ((one_student=reader.readLine())!=null){
+            while ((one_student = reader.readLine()) != null) {
                 System.out.println(one_student);
                 String[] s_info = one_student.split(",");
-                //System.out.println("hello");
+                Student student = new Student(s_info);
             }
         } catch (Exception e) {
 
@@ -46,12 +56,10 @@ public class JwxtParser {
         }
 
     }
-
     public static void parseCourseRAW() {
-        HashMap<String, Course> courseHashMap = new HashMap<>();
-        ArrayList<Class> classes = new ArrayList<>();
-        HashSet<Teacher> teachers = new HashSet<>();
-        int teacher_index = 0;
+        courseHashMap = new HashMap<>();
+        classes = new ArrayList<>();
+        teachers = new HashSet<>();
         HashSet<Location> locations = new HashSet<>();
         for (CourseRAW course_raw : courses) {
             //Course info_去重
