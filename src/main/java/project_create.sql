@@ -29,16 +29,16 @@ CREATE TABLE cc_linker(
 	classId varchar(46) references class(classId)
 );
 
-CREATE TABLE Teacher_linker(
-	classId varchar(46) references class(classId),
-	teacherId varchar(10) references Teachers(teacherId)
-);
-
 
 CREATE TABLE Teachers(
 	teacherId numeric(10) primary key,
 	--因为有可能会有一个很长的英文名:GARG NAVEEN KUMAR
 	name varchar(30) not null
+);
+
+CREATE TABLE Teacher_linker(
+	classId varchar(46) references class(classId),
+	teacherId numeric references Teachers(teacherId)
 );
 
 CREATE TABLE Student(
