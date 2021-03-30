@@ -38,7 +38,6 @@ public class DatabaseConnnect {
         }
     }
 
-
     static void SendToDataBase(Student student) {
         if (connection != null) {
             String sql = "insert into Student (name,gender,college,student_id) values (?,?,?,?)";
@@ -88,7 +87,83 @@ public class DatabaseConnnect {
         }
     }
 
+    static void SendToDataBase(Teacher teacher) {
+        if (connection != null) {
+            String sql = "insert into teacher(teacherId,name value(?,?)";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setInt(1, teacher.teacher_id);
+                preparedStatement.setString(2, teacher.names);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
 
+            }
+        }
+    }
+    static void SendToDataBase(Class class1){
+        if(connection!=null){
+            String sql="insert into class(classId,className value(?,?))";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, class1.class_id);
+                preparedStatement.setString(2, class1.class_name);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        }
+    }
+    static void SendToDataBase(ClassList classlist,Class class1){
+        if(connection!=null){
+            String sql="insert into class_list(classId,weekList,location,startTime,endTime,weekday value(?,?,?,?,?,?))";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1, class1.class_id);
+                preparedStatement.setString(2, classlist.week_list);
+                preparedStatement.setString(3,classlist.location);
+                preparedStatement.setInt(4,classlist.start_time);
+                preparedStatement.setInt(5,classlist.end_time);
+                preparedStatement.setInt(6,classlist.week_day);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+        }
+    }
+    static void SendToDataBase(Course course,Class class1){
+        if(connection!=null){
+            String sql="insert into cc_linker(courseId,classId value(?,?))";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                preparedStatement.setString(1,course.course_id);
+                preparedStatement.setString(2,class1.class_id);
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+
+            }
+            }
+    }
+//    static void SendToDataBase(Student student,Course course){
+//        if(connection!=null){
+//            String sql="insert into CourseDone(student_id,course_id value(?,?))";
+//            try {
+//                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//                preparedStatement.setString(1,student.student_id);
+//                preparedStatement.setString(2,course.course_id);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            } finally {
+//
+//            }
+//        }
+//    }
 }
-
 
