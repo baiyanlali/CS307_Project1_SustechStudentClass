@@ -26,6 +26,8 @@ public class JwxtParser {
         System.out.println(path.isAbsolute());
         System.out.println(path.getRoot());
         String content = Files.readString(path);
+        content = content.replaceAll("）",")");
+        content = content.replaceAll("）","(");
         Gson gson = new Gson();
         courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>() {
         }.getType());
@@ -35,9 +37,9 @@ public class JwxtParser {
         //String url = "jdbc:postgresql://localhost:5432/CS307_SustechStudentClass";
         //String user = "byll";
         //String password = "123456";
-        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
-                "byll",
-                "123456");
+//        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
+//                "byll",
+//                "123456");
 
         File student_info = new File("src/main/java/data/select_course.csv");
         BufferedReader reader = null;
@@ -54,7 +56,7 @@ public class JwxtParser {
         } finally {
             reader.close();
         }
-
+//        DatabaseConnnect.CloseConnection();
     }
     public static void parseCourseRAW() {
         courseHashMap = new HashMap<>();
@@ -96,6 +98,11 @@ public class JwxtParser {
                 }
             }
 
+        }
+    }
+    public static void putJWXTinData(){
+        for (Course c:courseHashMap.values()) {
+            DatabaseConnnect.SendToDataBase(c);
         }
     }
 
