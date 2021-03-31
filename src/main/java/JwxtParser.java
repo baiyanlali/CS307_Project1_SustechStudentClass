@@ -19,49 +19,59 @@ public class JwxtParser {
     static HashMap<String, Course> courseHashMap;
     static ArrayList<Class> classes;
     static HashSet<Teacher> teachers;
+    static HashMap<String,Teacher> teacherHashMap;
+    static ArrayList<Student> students;
 
     // Run as: jshell JwxtParser.java <json file>
     public static void main(String[] args) throws IOException {
+
         Path path = Path.of(args[0]);
-        System.out.println(path.isAbsolute());
-        System.out.println(path.getRoot());
+//        System.out.println(path.isAbsolute());
+//        System.out.println(path.getRoot());
         String content = Files.readString(path);
         content = content.replaceAll("）",")");
         content = content.replaceAll("）","(");
         Gson gson = new Gson();
         courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>() {
         }.getType());
+
+
+
+
         parseCourseRAW();
+//        putJWXTinData();
 
-        // change to your own content to connect this database
-        //String url = "jdbc:postgresql://localhost:5432/CS307_SustechStudentClass";
-        //String user = "byll";
-        //String password = "123456";
-//        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
-//                "byll",
-//                "123456");
 
+        parseStudent();
+        putStudentIntoData();
+
+
+    }
+
+    public static void parseStudent() throws IOException {
+        students=new ArrayList<>();
         File student_info = new File("src/main/java/data/select_course.csv");
         BufferedReader reader = null;
         try {
             String one_student = null;
             reader = new BufferedReader(new FileReader(student_info));
             while ((one_student = reader.readLine()) != null) {
-                System.out.println(one_student);
+//                System.out.println(one_student);
                 String[] s_info = one_student.split(",");
                 Student student = new Student(s_info);
+                students.add(student);
             }
         } catch (Exception e) {
 
         } finally {
             reader.close();
         }
-//        DatabaseConnnect.CloseConnection();
     }
     public static void parseCourseRAW() {
         courseHashMap = new HashMap<>();
         classes = new ArrayList<>();
         teachers = new HashSet<>();
+        teacherHashMap=new HashMap<>();
         HashSet<Location> locations = new HashSet<>();
         for (CourseRAW course_raw : courses) {
             //Course info_去重
@@ -89,6 +99,7 @@ public class JwxtParser {
 
                         Teacher teacher = new Teacher(oneTeacher.trim());
                         teachers.add(teacher);
+                        teacherHashMap.put(teacher.names,teacher);
                         clAss.teachers.add(teacher);
                     }
                 }
@@ -101,9 +112,44 @@ public class JwxtParser {
         }
     }
     public static void putJWXTinData(){
+        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
+                "byll",
+                "123456");
+
         for (Course c:courseHashMap.values()) {
             DatabaseConnnect.SendToDataBase(c);
+
         }
+
+        for (Teacher teacher:teachers){
+            DatabaseConnnect.SendToDataBase(teacher);
+        }
+
+        for (Class c:classes){
+            DatabaseConnnect.SendToDataBase(c);
+            DatabaseConnnect.SendToDataBase(c,1);
+            DatabaseConnnect.SendToDataBase(c.course,c);
+            for (ClassList classList:c.class_info_list){
+                DatabaseConnnect.SendToDataBase(classList,c);
+            }
+        }
+
+
+
+
+        DatabaseConnnect.CloseConnection();
+    }
+
+    static void putStudentIntoData() {
+        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
+                "byll",
+                "123456");
+
+        for (Student s:students){
+            DatabaseConnnect.SendToDataBase(s);
+        }
+
+        DatabaseConnnect.CloseConnection();
     }
 
 }
