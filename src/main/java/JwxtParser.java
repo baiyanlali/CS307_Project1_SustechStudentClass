@@ -2,6 +2,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,19 +46,25 @@ public class JwxtParser {
     }
 
     public static void exportPre() {
-
+        HashSet<String> hasAdded = new HashSet<>();
         FileOutputStream out = null;
         OutputStreamWriter osw = null;
         BufferedWriter bw = null;
         try {
             out = new FileOutputStream("src/main/java/data/Pre.csv");
-            osw = new OutputStreamWriter(out);
+            osw = new OutputStreamWriter(out, StandardCharsets.UTF_8);
             bw = new BufferedWriter(osw);
 
+
+            //加上UTF-8文件的标识字符
+            out.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+
             for (CourseRAW c : courses) {
+                if (hasAdded.contains(c.courseId)) continue;
                 String insert = String.format("%s,%s\n", c.courseId, c.prerequisite);
                 System.out.println(insert);
                 bw.append(insert);
+                hasAdded.add(c.courseId);
             }
 
         } catch (Exception e) {
@@ -187,24 +194,24 @@ public class JwxtParser {
     }
 
 
-}
-class CourseRAW {
-    // TODO:prerequisite question
-    public int totalCapacity;
-    public String courseId;
-    public String prerequisite;
-    public String teacher;
-    public ClassListRAW[] classList;
-    public int courseHour;
-    public float courseCredit;
-    public String courseName;
-    public String courseDept;
-    public String className;
-}
+    class CourseRAW {
+        // TODO:prerequisite question
+        public int totalCapacity;
+        public String courseId;
+        public String prerequisite;
+        public String teacher;
+        public ClassListRAW[] classList;
+        public int courseHour;
+        public float courseCredit;
+        public String courseName;
+        public String courseDept;
+        public String className;
+    }
 
-class ClassListRAW {
-    public int[] weekList;
-    public String location;
-    public String classTime;
-    public int weekday;
+    class ClassListRAW {
+        public int[] weekList;
+        public String location;
+        public String classTime;
+        public int weekday;
+    }
 }

@@ -92,7 +92,7 @@ class ClassList {
     int start_time;
     int end_time;
 
-    ClassList(ClassListRAW clw) {
+    ClassList(JwxtParser.ClassListRAW clw) {
 //        week_list=clw.weekList;
         week_list = "";
         int maxWeek = clw.weekList[clw.weekList.length - 1];
