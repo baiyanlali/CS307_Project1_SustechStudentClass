@@ -2,9 +2,9 @@ CREATE TABLE course(
 	courseId varchar(16)  not null primary key ,
 	totalCapacity smallint not null check ( totalCapacity > 0 ),
 	courseName varchar(30)  not null,
-	courseHour smallint not null check ( courseHour>0 ),
+	courseHour smallint not null check ( courseHour>=0 ),
 	courseDept varchar(20) not null,
-	courseCredit float check((courseCredit>0) and (courseCredit<100))
+	courseCredit float check((courseCredit>=0) and (courseCredit<100))
 );
 
 CREATE TABLE class(
@@ -31,14 +31,14 @@ CREATE TABLE cc_linker(
 
 
 CREATE TABLE Teachers(
-	teacherId numeric(10) primary key,
+	teacherId serial primary key,
 	--因为有可能会有一个很长的英文名:GARG NAVEEN KUMAR
 	name varchar(30) not null
 );
 
 CREATE TABLE Teacher_linker(
-	classId varchar(46) references class(classId),
-	teacherId numeric references Teachers(teacherId)
+	courseId varchar(46) references course(courseId),
+	teacherId int references Teachers(teacherId)
 );
 
 CREATE TABLE Student(

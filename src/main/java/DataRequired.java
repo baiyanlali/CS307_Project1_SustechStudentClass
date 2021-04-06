@@ -31,6 +31,8 @@ class Course{
         this.course_credit=course_credit;
         this.course_departure=course_departure;
         this.classes=new ArrayList<>();
+        this.course_name.replaceAll("）",")");
+        this.course_name.replaceAll("）","(");
     }
 
     //引用
@@ -90,7 +92,7 @@ class ClassList {
     int start_time;
     int end_time;
 
-    ClassList(ClassListRAW clw) {
+    ClassList(JwxtParser.ClassListRAW clw) {
 //        week_list=clw.weekList;
         week_list = "";
         int maxWeek = clw.weekList[clw.weekList.length - 1];
