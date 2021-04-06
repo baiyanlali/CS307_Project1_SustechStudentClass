@@ -22,6 +22,7 @@ class Course{
     int course_hour;
     float course_credit;
     String course_departure;
+    String prerequisite;
 
     Course(String course_id,int total_capacity,String course_name,int course_hour,float course_credit,String course_departure){
         this.course_id=course_id;

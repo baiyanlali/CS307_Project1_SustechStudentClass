@@ -24,19 +24,16 @@ public class JwxtParser {
     public static void main(String[] args) throws IOException {
 
         Path path = Path.of(args[0]);
-//        System.out.println(path.isAbsolute());
-//        System.out.println(path.getRoot());
         String content = Files.readString(path);
         content = content.replaceAll("）", ")");
         content = content.replaceAll("（", "(");
         Gson gson = new Gson();
-//        courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>(){}.getType());
         courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>() {
         }.getType());
 
 
-//        parseCourseRAW();
-//        putJWXTinData();
+        parseCourseRAW();
+        putJWXTinData();
 
         exportPre();
 //        parseStudent();
@@ -117,6 +114,7 @@ public class JwxtParser {
                         course_raw.courseHour,
                         course_raw.courseCredit,
                         course_raw.courseDept);
+                co.prerequisite=course_raw.prerequisite;
                 courseHashMap.put(co.course_name, co);
             }
             //Class info 不需要去重
@@ -195,7 +193,7 @@ public class JwxtParser {
 
 
     class CourseRAW {
-        // TODO:prerequisite question
+
         public int totalCapacity;
         public String courseId;
         public String prerequisite;

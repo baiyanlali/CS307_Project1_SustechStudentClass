@@ -4,7 +4,9 @@ CREATE TABLE course(
 	courseName varchar(30)  not null,
 	courseHour smallint not null check ( courseHour>=0 ),
 	courseDept varchar(20) not null,
-	courseCredit float check((courseCredit>=0) and (courseCredit<100))
+	courseCredit float check((courseCredit>=0) and (courseCredit<100)),
+	standard_name varchar(20),
+	prerequisite varchar(100)
 );
 
 CREATE TABLE class(
@@ -52,4 +54,16 @@ CREATE TABLE Student(
 CREATE TABLE CourseDone(
     student_id varchar(8) references Student(student_id),
     course_id varchar(16) references course(courseId)
+);
+
+create table pre_encode(
+    courseid varchar(16),
+    encode varchar(100),
+    length integer
+);
+
+create table pre_std_name(
+    courseid varchar(16),
+    standard_name varchar(100),
+    num integer
 );
