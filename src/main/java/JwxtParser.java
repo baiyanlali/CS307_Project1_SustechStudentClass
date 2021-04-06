@@ -28,7 +28,7 @@ public class JwxtParser {
 //        System.out.println(path.getRoot());
         String content = Files.readString(path);
         content = content.replaceAll("）", ")");
-        content = content.replaceAll("）", "(");
+        content = content.replaceAll("（", "(");
         Gson gson = new Gson();
 //        courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>(){}.getType());
         courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>() {
