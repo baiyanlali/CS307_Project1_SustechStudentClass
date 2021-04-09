@@ -8,6 +8,8 @@ Created on Fri Apr  2 11:01:30 2021
 import re
 import pandas as pd
 import csv
+import numpy as np
+
 
 def encode(raw_pre):
     """
@@ -42,7 +44,7 @@ def encode(raw_pre):
     final=re.sub("或者"," or ", final)                #change to or and
     final=re.sub("并且", " and ", final)
     
-    return final
+    return final, len(names)
 
 
 def get_course_name(raw_pre):
@@ -102,7 +104,58 @@ def check_satisfy(encoded, pre_list, satified_list):
     return loc['satisfied']
 
 
-pre=open("Pre.csv", 'r')
 
-with pre:
-    reader=csv.reader(pre)
+if __name__=='__main__':
+    pre=open("Pre.csv", 'r',encoding='utf-8')
+
+    with pre:
+        tt=pd.read_csv(pre, names=['course','pre'])
+        
+        
+    pattern=[]
+    lenth=[]
+    courses=[]
+    nums=[]
+    cid=[]
+    
+    raw_id=tt['course']
+    raws=tt['pre']
+    
+    raws[raws.isnull()]=0
+        
+    
+    for k in range(len(raws)):
+        c=raw_id[k]
+        r=raws[k]
+        if r==0:
+            pattern.append('null')
+            lenth.append(0)
+            continue
+        tmp_p, tmp_len=encode(r)
+        pattern.append(tmp_p)
+        lenth.append(tmp_len)
+        tmp=get_course_name(r)
+        for i in range(len(tmp)):
+            cid.append(c)
+            courses.append(tmp[i])
+            nums.append(i)
+            
+    
+    # pattern={'encode': pattern}
+    # lenth={'len': lenth}
+    
+    # a=pd.DataFrame(pattern)
+    # b=pd.DataFrame(lenth)
+    
+    # tt=tt.append(a, axis=1)
+    # tt=tt.append(b,axis=1)
+    code=np.array(tt['course']).tolist()
+    
+    df=pd.DataFrame({'course':code, 'encode':pattern,'len':lenth})
+    df.to_csv('encode.csv',index=False, header=False)
+    
+    df2=pd.DataFrame({'id':cid, 'pre':courses, 'num':nums})
+    df2.to_csv('pre_course.csv', index=False, header=False,encoding='utf_8_sig')
+    
+    
+    

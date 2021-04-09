@@ -1,0 +1,338 @@
+GE232,null,0
+EE332,(%d or %d or %d),3
+CH215,(%d or %d),2
+BIO320,(%d or %d),2
+ESE212,(%d or %d or %d) and (%d or %d or %d) and (%d or %d),8
+CH305-2,%d,1
+EE210,null,0
+CS402,null,0
+ME306,%d and (%d or %d),3
+ESE218,%d,1
+CH323,%d,1
+ESE216,(%d or %d or %d) and (%d or %d or %d),6
+BIO340,null,0
+ME303,(%d or %d or %d) and (%d or (%d and %d)) and (%d or %d or %d),9
+CS401,(%d or %d or %d) and (%d or %d) and %d,6
+MSE202,(%d or %d) and (%d or %d or %d),5
+MED307,(%d and %d and %d),3
+EE106,null,0
+IPE105,null,0
+ESS102,null,0
+OCE306,%d,1
+MA314,(%d or %d or %d),3
+MA201b,(%d or %d or %d),3
+CH305-1,(%d and %d),2
+MA322,(%d or %d),2
+ME308,%d,1
+ESE304,(%d and %d),2
+MSE330-16,null,0
+OCE308,%d,1
+BMEB322,%d,1
+ESE310,(%d and %d),2
+MED305,%d,1
+MA224,(%d or %d),2
+MAES001,null,0
+OCE304,(%d or %d or %d or %d),4
+ME305,%d,1
+OCE307,%d,1
+EE201-17L,(%d or %d or %d),3
+CH214,(%d or %d),2
+EE202-17,(%d or %d or %d),3
+PHY203-15,(%d or %d or %d) and (%d or %d or %d) and (%d or %d),8
+ESS312,(%d or %d or %d or %d) and (%d or %d),6
+MAE403,(%d or %d),2
+IPE103 ,null,0
+ME102,null,0
+IPE102,null,0
+ME301,(%d or %d or %d) and (%d or %d or %d),6
+FET306,null,0
+IPE101,null,0
+OCE404,(%d and %d),2
+ESE318,%d,1
+ME405,(%d and %d),2
+BIO332,(%d or %d),2
+ME307,%d,1
+CH320,(%d or %d),2
+MAE204,(%d or %d or %d or %d) and (%d or %d),6
+MA201a,(%d or %d or %d or %d or %d) and %d,6
+ESE316,%d,1
+FET470,null,0
+ESS205,null,0
+ESE332,(%d or %d or %d) and (%d or %d or %d) and (%d or %d or %d),9
+ESE330,%d,1
+EE201-17,(%d or %d or %d) and %d,4
+CS316,null,0
+MA206,(%d or %d or %d),3
+MA403,%d,1
+ESS202,(%d or %d or %d or %d),4
+BMEB312,%d,1
+ESS201,null,0
+OCE305,(%d or %d),2
+MAT8010,(%d or %d),2
+CH322,%d,1
+MSE201,(%d or %d or %d or %d) and (%d or %d),6
+FET303,(%d or %d or %d or %d) and %d,5
+MA327,(%d or %d or %d),3
+MA208,(%d or %d or %d or %d) and (%d or %d) and %d,7
+MA406,(%d or %d or %d or %d or %d),5
+ESE329,(%d or %d or %d) and (%d or %d or %d or %d) and %d,8
+MED308,null,0
+ME304,(%d or %d) and (%d or %d or %d or %d or %d),7
+MAE202,(%d or %d or %d or %d) and (%d or %d),6
+MA417,(%d or %d or %d),3
+MAT7041,%d,1
+ME434,%d,1
+FET302,null,0
+BMEB325,%d,1
+EE328,%d,1
+ESE201,null,0
+MAT7012,(%d or %d),2
+MAE314,(%d or %d or %d or %d),4
+CS307,null,0
+ESE307,(%d or %d or %d),3
+MAE302-16,(%d or %d or %d),3
+EE334,(%d or %d or %d),3
+MAE310,(%d or %d),2
+ESE331,%d,1
+IPE104,null,0
+PHY442,%d,1
+CS306,%d,1
+FET206,(%d or %d or %d),3
+MA333,(%d or %d),2
+CH102-17,(%d or %d),2
+CS207,null,0
+MA210,(%d or %d or %d or %d or %d),5
+FET202,null,0
+ME302,(%d and %d),2
+ESE214,%d,1
+BIO342,%d,1
+MA213-16,(%d or %d),2
+PHY431,(%d or %d) and %d,3
+MA110,%d,1
+CH212-16,(%d or %d),2
+OCE408,%d,1
+PHY439,(%d or %d) and %d,3
+FET204,(%d and %d),2
+MAE308,(%d or %d or %d or %d),4
+CS209A,(%d or %d or %d or %d),4
+CH308-14,(%d and %d),2
+CH318-14,(%d or %d),2
+CS205,null,0
+BIO203,null,0
+BIO301,null,0
+BIO303,(%d and %d),2
+BIO305,(%d or %d),2
+BIO304,(%d or %d) and (%d or (%d and (%d or %d))),6
+BIO306,%d,1
+BIO308,null,0
+BIO104,(%d or %d) or %d,3
+BIO202,(%d or %d),2
+BIO310,(%d or %d),2
+BIO302,(%d or %d) and (%d or %d) and %d,5
+BIO331,(%d or %d),2
+PHY104B,null,0
+ESS310,(%d and %d),2
+EE404,null,0
+OCE407,null,0
+ME112,null,0
+FET490,null,0
+MAT7045,null,0
+CS208,(%d or %d or %d) and (%d or %d),5
+CH328,%d,1
+CH208,(%d or %d) and %d,3
+CH206,%d,1
+CH204,(%d or %d) and (%d or %d),4
+CH302,%d,1
+CH210,null,0
+CH403,(%d or %d or %d or %d) and (%d or %d or %d),7
+CH306,%d and (%d or (%d and %d)),4
+CH314,%d and (%d or (%d and %d)),4
+CH312,%d,1
+CH304,%d and (%d or (%d and %d)),4
+CH316,(%d or %d),2
+CS201,(%d or %d or %d or %d) and (%d or %d),6
+CS202,%d,1
+CS302,(%d or %d) and %d and (%d or %d or %d),6
+CS304,%d,1
+CS312,null,0
+CS318,null,0
+CS322,null,0
+OCE202,null,0
+FMA307,(%d or %d),2
+BMEB314,%d,1
+OCE204,null,0
+BIO222,(%d or %d) and %d,3
+ME101,null,0
+ESE302,(%d and %d),2
+CS314,(%d and %d),2
+OCE201,null,0
+EE330,%d,1
+ME103,null,0
+EE326,%d,1
+BIO323,(%d or %d),2
+BMEB324,(%d or %d),2
+PHY201-15,(%d or %d or %d),3
+MSE305,(%d or %d),2
+MSE313,(%d or %d),2
+MSE308,(%d or %d) and (%d or %d),4
+MSE310,null,0
+BMEB315,null,0
+CS406,%d,1
+EE104,(%d or %d or %d or %d) and (%d or %d or %d),7
+EE203,null,0
+EE204,%d,1
+EE205,null,0
+EE206,%d,1
+CS203,(%d or %d or %d),3
+EE208,(%d or %d or %d) and (%d or %d) and %d,6
+EE302,null,0
+EE304,(%d or %d or %d) and %d,4
+EE306,(%d or %d or %d),3
+EE308,null,0
+EE310,null,0
+EE314,%d,1
+EE316,(%d and %d) and (%d or %d),4
+EE318,null,0
+EE320-15,%d,1
+EE322,%d,1
+EE402,null,0
+EE480,null,0
+ESE202,null,0
+ESE206,(%d or %d or %d),3
+MSE208,(%d or %d),2
+MA302,(%d or %d) and (%d or %d) and %d,5
+OCE301,null,0
+MAE407,(%d or %d),2
+EE202-17L,(%d or %d),2
+MAE304,(%d or %d) and (%d or %d),4
+FMA301,(%d or %d or %d),3
+ME310,(%d or %d) and %d,3
+BIO403-16,(%d or %d) and %d,3
+EE423-14,(%d or %d) and (%d or %d) and %d,5
+FIN210,null,0
+FIN308,(%d or %d or %d or %d) and %d,5
+FIN490,null,0
+FMA302,(%d or %d),2
+MA104b,(%d or %d or %d),3
+MA202,(%d or %d or %d or %d or %d),5
+MA212,(%d or %d or %d or %d or %d),5
+MA204,(%d or %d),2
+FIN204,null,0
+FIN206,%d,1
+FIN201,null,0
+FIN202,null,0
+FIN203,null,0
+MA214,%d,1
+FIN302,%d and (%d or %d),3
+FIN301,(%d or %d or %d or %d) and (%d and %d),6
+FIN208,(%d or %d or %d or %d),4
+MA325,(%d or %d or %d),3
+MA304,(%d or %d or %d),3
+FIN306,%d,1
+FIN305,(%d or %d or %d or %d) and %d and %d,6
+MAT7003,%d,1
+MSE102,null,0
+MSE204,%d,1
+MSE328,(%d or %d) and (%d or %d or %d) and %d,6
+MSE302,(%d or %d),2
+MSE304,%d,1
+MSE306,%d,1
+MSE321,%d,1
+MSE316,(%d or %d),2
+MSE318,%d,1
+MSE320,(%d or %d or %d or %d) and (%d or %d or %d or %d),8
+MSE403,%d,1
+MSE480,null,0
+PHY205-15,(%d or %d or %d),3
+PHY202,(%d or %d or %d),3
+PHY210,(%d or %d or %d),3
+PHY204,(%d or %d or %d),3
+PHY324,(%d and %d),2
+PHY330,(%d and %d),2
+PHY208,%d,1
+PHY328,%d,1
+PHY206-15,(%d and %d),2
+PHY207-15,(%d or %d or %d) and (%d or %d) and %d,6
+PHY326-15,%d,1
+PHY332-15,%d,1
+SS018,null,0
+SS043,null,0
+CLE039,(%d or %d or %d),3
+GELS02,null,0
+GEM029,null,0
+SS048,null,0
+CLE041,(%d or %d or %d),3
+HUM028,null,0
+SS007,null,0
+GEM024,null,0
+GEM032,null,0
+SS016,null,0
+SS051,null,0
+HUM017,null,0
+IE001,null,0
+DHSSS002,null,0
+SS010,null,0
+GEM008,null,0
+HUM013,null,0
+SS054,null,0
+DHSSS001,null,0
+GEM033,null,0
+SS009,null,0
+SS041,null,0
+GE2229,(%d or %d or %d),3
+GE2100,null,0
+CLE042,(%d or %d or %d),3
+SS044,null,0
+GEM026,null,0
+SS024,null,0
+SS046,null,0
+SS028,null,0
+SS052,null,0
+HUM018,(%d or %d),2
+HUM027,null,0
+HUM026,null,0
+SS053,null,0
+CLE024,(%d or %d or %d),3
+SS047,null,0
+GEM034,null,0
+GEM036,null,0
+SS025,null,0
+INO001,null,0
+GEM035,null,0
+HE004,null,0
+SS049,null,0
+SS019,null,0
+HUM009,null,0
+GEJ013,null,0
+SS050,null,0
+SS027,null,0
+SS042,null,0
+GE212,null,0
+GEM022,null,0
+INO005,null,0
+GEM006,null,0
+GE1221,null,0
+GEL006,(%d or %d or %d),3
+HUM005,null,0
+HUM007,null,0
+HUM008,null,0
+BIO102B,null,0
+BIO102A,null,0
+CS102B,null,0
+PHY105A,%d,1
+MA203a,(%d or %d),2
+CS102A,null,0
+CLE023,null,0
+CLE022,null,0
+MA101B,null,0
+CLE030,%d,1
+MA102B,(%d or %d),2
+PHY103B,null,0
+MA103B,null,0
+CLE021,null,0
+PHY105C,(%d or %d or %d) or (%d or %d),5
+MA103A,null,0
+MA102a,(%d or %d),2
+CH101B,null,0
+CH101A,null,0
+PHY105B,(%d or %d or %d),3
