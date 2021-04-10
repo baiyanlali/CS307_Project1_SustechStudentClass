@@ -128,7 +128,7 @@ if __name__=='__main__':
         c=raw_id[k]
         r=raws[k]
         if r==0:
-            pattern.append('null')
+            pattern.append(nan)
             lenth.append(0)
             continue
         tmp_p, tmp_len=encode(r)
