@@ -8,3 +8,4 @@ src/main/java/data/select_course.csv
 .idea/vcs.xml
 src/main/java/data/Pre.csv
 src/main/java/data/Pre.csv
+*.xml
