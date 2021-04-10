@@ -9,3 +9,4 @@ src/main/java/data/select_course.csv
 src/main/java/data/Pre.csv
 src/main/java/data/Pre.csv
 *.xml
+*.sql

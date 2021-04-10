@@ -32,12 +32,12 @@ public class JwxtParser {
         }.getType());
 
 
-        parseCourseRAW();
-        putJWXTinData();
+//        parseCourseRAW();
+//        putJWXTinData();
 
 //        exportPre();
-//        parseStudent();
-//        putStudentIntoData();
+        parseStudent();
+        putStudentIntoData();
 
 
     }
@@ -175,24 +175,32 @@ public class JwxtParser {
         DatabaseConnnect.CloseConnection();
     }
 
-    static void putStudentIntoData() {
+    static void putStudentIntoData() throws IOException {
         databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
                 "byll",
                 "123456");
-        long size = students.size();
-        long now = 0;
-        long total = 0;
-        for (Student s : students) {
-            DatabaseConnnect.SendToDataBase(s);
-            now++;
-            if (now / 1000 > 0) {
-                total += now;
-                now = 0;
-                System.out.println(String.format("%d/%d has done", total, size));
-            }
-        }
-
+//        long size = students.size();
+//        long now = 0;
+//        long total = 0;
+        DatabaseConnnect.SendToDataBase(students);
+        DatabaseConnnect.SendToDataBase(students,10);
         DatabaseConnnect.CloseConnection();
+//        DatabaseConnnect.writeToFile(students);
+//        DatabaseConnnect.openFileWrite();
+//        for (Student s : students) {
+////            DatabaseConnnect.SendToDataBase(s);
+//            DatabaseConnnect.openFileWrite();
+//            DatabaseConnnect.writeToFile(s);
+//            now++;
+//            if (now / 1000 > 0) {
+//                total += now;
+//                now = 0;
+//                System.out.println(String.format("%d/%d has done", total, size));
+//            }
+//        }
+//        DatabaseConnnect.closeFileWrite();
+
+//        DatabaseConnnect.CloseConnection();
     }
 
 

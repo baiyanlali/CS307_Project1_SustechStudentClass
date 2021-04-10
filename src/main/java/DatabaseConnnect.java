@@ -1,4 +1,9 @@
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,7 +58,152 @@ public class DatabaseConnnect {
         }
     }
 
-    static void SendToDataBase(Student student) {
+    static BufferedWriter bw1;
+    static BufferedWriter bw2;
+
+    static void openFileWrite() throws IOException {
+        bw1=new BufferedWriter(new FileWriter("src/main/java/data/students.sql"));
+        bw2=new BufferedWriter(new FileWriter("src/main/java/data/students_pre.sql"));
+    }
+
+    static void writeToFile(ArrayList<Student> ss) throws FileNotFoundException {
+        File fout=new File("src/main/java/data/students.sql");
+        System.out.println("Start to write students.sql");
+        FileChannel fcout=new RandomAccessFile(fout,"rws").getChannel();
+        ByteBuffer wbuffer=ByteBuffer.allocate(100);
+        String sql1 = "insert into Student (name,gender,college,student_id) values (\'%s\',\'%s\',\'%s\',\'%s\')\n";
+        String sql12 = "insert into CourseDone (student_id,course_id) values (\'%s\',\'%s\')\n";
+        try{
+            int i=0;
+            int n=0;
+            for (Student s:ss) {
+                i++;
+                fcout.write(
+                        wbuffer.wrap(
+                                String.format(sql1, s.name,s.gender,s.college,s.student_id).getBytes(StandardCharsets.UTF_8))
+                                            ,fcout.size());
+                if(i>=1000){
+                    n+=i;
+                    i=0;
+                    System.out.println(String.format("%d of %d has been written",n,ss.size()));
+                }
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+//        File fout2=new File("src/main/java/data/students.sql");
+    }
+
+    static void writeToFile(Student student){
+        try{
+            if(bw1==null)
+                bw1=new BufferedWriter(new FileWriter("src/main/java/data/students.sql"));
+            if(bw2==null)
+                bw2=new BufferedWriter(new FileWriter("src/main/java/data/students_pre.sql"));
+            String sql1 = "insert into Student (name,gender,college,student_id) values (\'%s\',\'%s\',\'%s\',\'%s\')  ON CONFLICT DO NOTHING\n";
+            String sql12 = "insert into CourseDone (student_id,course_id) values (\'%s\',\'%s\')  ON CONFLICT DO NOTHING\n";
+            bw1.append(String.format(sql1,student.name,student.gender,student.college,student.student_id));
+            for (String course : student.courses_done) {
+                bw2.append(String.format(sql12,student.student_id,course));
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+//            try{
+//                bw1.close();;
+//            }catch (IOException e){
+//                e.printStackTrace();
+//            }
+//            try{
+//                bw2.close();;
+//            }catch (IOException e){
+//                e.printStackTrace();
+//            }
+        }
+    }
+
+    static void closeFileWrite(){
+            try{
+                if(bw1!=null)
+                bw1.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            try{
+                if(bw2!=null)
+                bw2.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+    }
+
+
+    static void SendToDataBase(ArrayList<Student> students) throws IOException {
+        Long beginTime=System.currentTimeMillis();
+        String sql = "insert into Student (name,gender,college,student_id) values (?,?,?,?)";
+        try{
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            connection.setAutoCommit(false);
+            long i=0;
+            long size=students.size();
+            for (Student student:students){
+                i++;
+                preparedStatement.setString(1, student.name);
+                preparedStatement.setString(2, student.gender);
+                preparedStatement.setString(3, student.college);
+                preparedStatement.setString(4, student.student_id);
+                preparedStatement.addBatch();
+                if(i%1000==0){
+                    preparedStatement.executeBatch();
+                    connection.commit();
+                    preparedStatement.clearBatch();
+                    System.out.println(String.format("%d of %d has been added",i,size));
+                }
+            }
+            connection.setAutoCommit(true);
+            preparedStatement.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            System.out.println(String.format("Run %d ms.",System.currentTimeMillis()-beginTime));
+        }
+    }
+    static void SendToDataBase(ArrayList<Student> students,int in) throws IOException {
+        Long beginTime=System.currentTimeMillis();
+        String sql = "insert into CourseDone (student_id,course_id) values (?,?)";
+        try{
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            connection.setAutoCommit(false);
+            long i=0;
+            long size=students.size();
+            for (Student student:students){
+                i++;
+                for (String str:student.courses_done) {
+                    preparedStatement.setString(1,student.student_id);
+                    preparedStatement.setString(2,str);
+                    preparedStatement.addBatch();
+                }
+                if(i%1000==0){
+                    preparedStatement.executeBatch();
+                    connection.commit();
+                    preparedStatement.clearBatch();
+                    System.out.println(String.format("%d of %d has been added",i,size));
+                }
+            }
+            connection.setAutoCommit(true);
+            preparedStatement.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally {
+            System.out.println(String.format("Run %d ms.",System.currentTimeMillis()-beginTime));
+        }
+    }
+    static void SendToDataBase(Student student) throws IOException {
+
+
+
         if (connection != null) {
             String sql = "insert into Student (name,gender,college,student_id) values (?,?,?,?)  ON CONFLICT DO NOTHING";
             String sql2 = "insert into CourseDone (student_id,course_id) values (?,?)  ON CONFLICT DO NOTHING";
@@ -69,7 +219,7 @@ public class DatabaseConnnect {
                 for (String course : student.courses_done) {
                     preparedStatement = connection.prepareStatement(sql2);
                     preparedStatement.setString(1, student.student_id);
-                    preparedStatement.setString(2, course.trim());
+                    preparedStatement.setString(2, course);
                     preparedStatement.execute();
                 }
             } catch (SQLException e) {
