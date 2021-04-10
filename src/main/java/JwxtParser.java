@@ -35,7 +35,7 @@ public class JwxtParser {
         parseCourseRAW();
         putJWXTinData();
 
-        exportPre();
+//        exportPre();
 //        parseStudent();
 //        putStudentIntoData();
 
@@ -138,8 +138,12 @@ public class JwxtParser {
                 } else {
                     Teacher teacher = new Teacher(course_raw.teacher.trim());
                     clAss.teachers.add(teacher);
+                    teachers.add(teacher);
+                    teacherHashMap.put(teacher.names, teacher);
                 }
             }
+
+            classes.add(clAss);
 
         }
     }
@@ -160,11 +164,11 @@ public class JwxtParser {
 
         for (Class c:classes){
             DatabaseConnnect.SendToDataBase(c);
-            DatabaseConnnect.SendToDataBase(c,1);
             DatabaseConnnect.SendToDataBase(c.course,c);
             for (ClassList classList:c.class_info_list){
                 DatabaseConnnect.SendToDataBase(classList,c);
             }
+            DatabaseConnnect.SendToDataBase(c,1);
         }
 
 

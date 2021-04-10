@@ -55,8 +55,8 @@ public class DatabaseConnnect {
 
     static void SendToDataBase(Student student) {
         if (connection != null) {
-            String sql = "insert into Student (name,gender,college,student_id) values (?,?,?,?)";
-            String sql2 = "insert into CourseDone (student_id,course_id) values (?,?)";
+            String sql = "insert into Student (name,gender,college,student_id) values (?,?,?,?)  ON CONFLICT DO NOTHING";
+            String sql2 = "insert into CourseDone (student_id,course_id) values (?,?)  ON CONFLICT DO NOTHING";
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, student.name);
@@ -83,7 +83,7 @@ public class DatabaseConnnect {
     static void SendToDataBase(Course course) {
         if (connection != null) {
             String sql = "insert into course(courseID,totalCapacity,courseName," +
-                    "courseHour,courseDept,courseCredit,standard_name) values(?,?,?,?,?,?,?,?)";
+                    "courseHour,courseDept,courseCredit,standard_name,prerequisite) values(?,?,?,?,?,?,?,?)  ON CONFLICT DO NOTHING";
             try {
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, course.course_id);
@@ -106,7 +106,7 @@ public class DatabaseConnnect {
 
     static void SendToDataBase(Teacher teacher) {
         if (connection != null) {
-            String sql = "insert into teachers (name) values(?)";
+            String sql = "insert into teachers (name) values(?)  ON CONFLICT DO NOTHING";
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 //preparedStatement.setInt(1, teacher.teacher_id);
@@ -120,7 +120,7 @@ public class DatabaseConnnect {
         }
     }
 
-    static HashMap<Teacher, Integer> teacherID;
+    static HashMap<String, Integer> teacherID;
 
     static void getTeacherID() {
         teacherID=new HashMap<>();
@@ -131,7 +131,7 @@ public class DatabaseConnnect {
                 int id = resultSet.getInt(1);
                 String name = resultSet.getString(2);
                 Teacher teacher = JwxtParser.teacherHashMap.get(name);
-                teacherID.put(teacher,id);
+                teacherID.put(teacher.names,id);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,15 +141,17 @@ public class DatabaseConnnect {
 
     static void SendToDataBase(Class class_with_teacher, int in) {
         getTeacherID();
-        String sql = "insert into teacher_linker(classId,teacherId) values(?,?))";
+        String sql = "insert into teacher_linker(classId,teacherId) values(?,?)  ON CONFLICT DO NOTHING";
         List<Teacher> teachers = class_with_teacher.teachers;
         if (teachers.size() == 0) return;
         for (Teacher one : teachers) {
-            int id = teacherID.get(one);
+
+            int id = teacherID.get(one.names);
             try{
                 preparedStatement=connection.prepareStatement(sql);
                 preparedStatement.setString(1,class_with_teacher.class_id);
                 preparedStatement.setInt(2,id);
+                preparedStatement.execute();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -159,7 +161,7 @@ public class DatabaseConnnect {
 
     static void SendToDataBase(Class class1) {
         if (connection != null) {
-            String sql = "insert into class(classId,className) values(?,?))";
+            String sql = "insert into class(classId,className) values(?,?)  ON CONFLICT DO NOTHING";
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, class1.class_id);
@@ -175,7 +177,7 @@ public class DatabaseConnnect {
 
     static void SendToDataBase(ClassList classlist, Class class1) {
         if (connection != null) {
-            String sql = "insert into class_list(classId,weekList,location,startTime,endTime,weekday) values(?,?,?,?,?,?))";
+            String sql = "insert into class_list(classId,weekList,location,startTime,endTime,weekday) values(?,?,?,?,?,?)  ON CONFLICT DO NOTHING";
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, class1.class_id);
@@ -195,7 +197,7 @@ public class DatabaseConnnect {
 
     static void SendToDataBase(Course course, Class class1) {
         if (connection != null) {
-            String sql = "insert into cc_linker(courseId,classId) values(?,?))";
+            String sql = "insert into cc_linker(courseId,classId) values(?,?)  ON CONFLICT DO NOTHING";
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, course.course_id);
@@ -210,7 +212,7 @@ public class DatabaseConnnect {
     }
 //    static void SendToDataBase(Student student,Course course){
 //        if(connection!=null){
-//            String sql="insert into CourseDone(student_id,course_id values(?,?))";
+//            String sql="insert into CourseDone(student_id,course_id values(?,?)";
 //            try {
 //                PreparedStatement preparedStatement = connection.prepareStatement(sql);
 //                preparedStatement.setString(1,student.student_id);
