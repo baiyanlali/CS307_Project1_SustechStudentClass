@@ -83,7 +83,7 @@ public class DatabaseConnnect {
     static void SendToDataBase(Course course) {
         if (connection != null) {
             String sql = "insert into course(courseID,totalCapacity,courseName," +
-                    "courseHour,courseDept,courseCredit) values(?,?,?,?,?,?)";
+                    "courseHour,courseDept,courseCredit,standard_name) values(?,?,?,?,?,?,?,?)";
             try {
                 preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, course.course_id);
@@ -92,6 +92,9 @@ public class DatabaseConnnect {
                 preparedStatement.setInt(4, course.course_hour);
                 preparedStatement.setString(5, course.course_departure);
                 preparedStatement.setFloat(6, course.course_credit);
+                String str= course.course_name.replaceAll("\\(|\\)|\\s+","");
+                preparedStatement.setString(7,str);
+                preparedStatement.setString(8,course.prerequisite);
                 preparedStatement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();

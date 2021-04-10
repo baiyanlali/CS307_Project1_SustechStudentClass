@@ -2,6 +2,7 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,19 +24,16 @@ public class JwxtParser {
     public static void main(String[] args) throws IOException {
 
         Path path = Path.of(args[0]);
-//        System.out.println(path.isAbsolute());
-//        System.out.println(path.getRoot());
         String content = Files.readString(path);
         content = content.replaceAll("）", ")");
-        content = content.replaceAll("）", "(");
+        content = content.replaceAll("（", "(");
         Gson gson = new Gson();
-//        courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>(){}.getType());
         courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>() {
         }.getType());
 
 
-//        parseCourseRAW();
-//        putJWXTinData();
+        parseCourseRAW();
+        putJWXTinData();
 
         exportPre();
 //        parseStudent();
@@ -45,19 +43,25 @@ public class JwxtParser {
     }
 
     public static void exportPre() {
-
+        HashSet<String> hasAdded = new HashSet<>();
         FileOutputStream out = null;
         OutputStreamWriter osw = null;
         BufferedWriter bw = null;
         try {
             out = new FileOutputStream("src/main/java/data/Pre.csv");
-            osw = new OutputStreamWriter(out);
+            osw = new OutputStreamWriter(out, StandardCharsets.UTF_8);
             bw = new BufferedWriter(osw);
 
+
+            //加上UTF-8文件的标识字符
+            out.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+
             for (CourseRAW c : courses) {
+                if (hasAdded.contains(c.courseId)) continue;
                 String insert = String.format("%s,%s\n", c.courseId, c.prerequisite);
                 System.out.println(insert);
                 bw.append(insert);
+                hasAdded.add(c.courseId);
             }
 
         } catch (Exception e) {
@@ -110,6 +114,7 @@ public class JwxtParser {
                         course_raw.courseHour,
                         course_raw.courseCredit,
                         course_raw.courseDept);
+                co.prerequisite=course_raw.prerequisite;
                 courseHashMap.put(co.course_name, co);
             }
             //Class info 不需要去重
@@ -187,24 +192,24 @@ public class JwxtParser {
     }
 
 
-}
-class CourseRAW {
-    // TODO:prerequisite question
-    public int totalCapacity;
-    public String courseId;
-    public String prerequisite;
-    public String teacher;
-    public ClassListRAW[] classList;
-    public int courseHour;
-    public float courseCredit;
-    public String courseName;
-    public String courseDept;
-    public String className;
-}
+    class CourseRAW {
 
-class ClassListRAW {
-    public int[] weekList;
-    public String location;
-    public String classTime;
-    public int weekday;
+        public int totalCapacity;
+        public String courseId;
+        public String prerequisite;
+        public String teacher;
+        public ClassListRAW[] classList;
+        public int courseHour;
+        public float courseCredit;
+        public String courseName;
+        public String courseDept;
+        public String className;
+    }
+
+    class ClassListRAW {
+        public int[] weekList;
+        public String location;
+        public String classTime;
+        public int weekday;
+    }
 }

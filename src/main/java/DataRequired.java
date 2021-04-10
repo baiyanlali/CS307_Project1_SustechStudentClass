@@ -22,6 +22,7 @@ class Course{
     int course_hour;
     float course_credit;
     String course_departure;
+    String prerequisite;
 
     Course(String course_id,int total_capacity,String course_name,int course_hour,float course_credit,String course_departure){
         this.course_id=course_id;
@@ -92,7 +93,7 @@ class ClassList {
     int start_time;
     int end_time;
 
-    ClassList(ClassListRAW clw) {
+    ClassList(JwxtParser.ClassListRAW clw) {
 //        week_list=clw.weekList;
         week_list = "";
         int maxWeek = clw.weekList[clw.weekList.length - 1];
