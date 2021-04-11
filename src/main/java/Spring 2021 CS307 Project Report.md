@@ -10,11 +10,12 @@
 
 ## 2. Group info and Contribution
 
-| Student Name:        | Student ID: | Specific contribution content | Percentage |
-| :------------------- | :---------- | ----------------------------- | ---------- |
-| Tan                  |             |                               |            |
-| Zhao Yunlong(赵云龙) | 11911309    |                               |            |
-| Jiang                |             |                               |            |
+| Student Name:        | Student ID: | Specific contribution content      | Percentage |
+| :------------------- | :---------- | ---------------------------------- | ---------- |
+| Tan Sixu(谈思序)     | 11911627    | Prerequisite design, Python server | 33.3%      |
+| Zhao Yunlong(赵云龙) | 11911309    |                                    | 33.3%      |
+| Jiang Runzhe(蒋润喆) | 11912511    | Database design, High currency,    | 33.3%      |
+| Andy Lau(于德华)     | 88015127    | Spiritual leader(逃げる)           | 0.1%       |
 
 
 
