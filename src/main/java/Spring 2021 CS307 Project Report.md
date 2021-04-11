@@ -151,8 +151,51 @@ connect table-course to table-class
 
 
 
+**This design works with any pattern of prerequisite, no matter how complicated the brackets and logical connections are.**
+To design a pattern that fit all kinds of given string of prerequisite, we construct Two assistant tables, namely *pre_encode* and *pre_std_name*. 
+
+Our basic idea is to avoid interpreting the annoying string of prerequisites. In order to fulfill this, the *Regular expression* is employed to replace all names of prerequisite courses with placeholder "%d", forming the encode_pattern which will be stored in table *pre_encode* while leaving the original brackts and logical connections unchanged. Meanwhile, the names of prerequisites are stored in the table  *pre_std_name*. When checking whether the prerequisites are satisfied, we can again replace the placeholders with 0 or 1 that returned from queries in database. The by dynamically excute the encode_pattern in Python, we can get the result. 
+>e.g. rough example may look like this:
+
+>Given course "BIO304" with prerequisites"(普通生物学 或者 普通生物学) 并且 (概率论与数理统计 或者 (概率论 并且 (数理统计 或者 数理统计)))"
+
+After transition, the tables will be like:
+
+*pre_encode*:
+| host_course_id | encode_pattern                             |
+| -------------- | ------------------------------------------ |
+| BIO304         | (%d or %d) and (%d or (%d and (%d or %d))) |
+
+*pre_std_name*:
+
+| host_course_id | std_name           |
+| -------------- | ------------------ |
+| BIO304         | '普通生物学'       |
+| BIO304         | '普通生物学'       |
+| BIO304         | '概率论与数理统计' |
+| BIO304         | '概率论'           |
+| BIO304         | '数理统计'         |
+| BIO304         | '数理统计'         |
 
 
+
+Suppose there is a student, say A, who has taken the following courses:
+
+| Name | courses_done |
+| ---- | ------------ |
+| A    | '普通生物学' |
+| A    | '数理统计'   |
+
+Then by the index of joining *course_done* and *pre_std_name*,  we replace the placeholder with [1,0,0,0,1,0], the encode_pattern will then be like 
+$$
+(1 or 0) and (0 or (0 and (1 or 0)))
+$$
+The we just evaluate the logic expression by 
+```python
+    expression=f"satisfied= {encoded}"%tuple(logic)     #replace
+    exec(expression)
+```
+Hence in this way we can check the satisfaction of prerequisite.
 
 
 #### <1.5> Code
