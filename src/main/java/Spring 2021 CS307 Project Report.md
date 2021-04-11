@@ -10,11 +10,11 @@
 
 ## 2. Group info and Contribution
 
-| Student Name: | Student ID: | Specific contribution content | Percentage |
-| :------------ | :---------- | ----------------------------- | ---------- |
-| Tan           |             |                               |            |
-| Zhao          |             |                               |            |
-| Jiang         |             |                               |            |
+| Student Name:        | Student ID: | Specific contribution content | Percentage |
+| :------------------- | :---------- | ----------------------------- | ---------- |
+| Tan                  |             |                               |            |
+| Zhao Yunlong(赵云龙) | 11911309    |                               |            |
+| Jiang                |             |                               |            |
 
 
 
@@ -41,6 +41,7 @@ In this project, we want to use DBMS to implement a multi-dimension educational 
     #### <1.1> The structure of the whole table 
 
 ![Table_Stucture](E:\大数据project\CS307_Project1_SustechStudentClass\src\main\java\Picture\Table_Stucture.png)
+<img src="\Picture\Table_Stucture.png" alt="Table_Stucture" title="style=&quot;zoom:33%;" style="zoom:73%;" />
 
 
 
@@ -238,11 +239,11 @@ create table pre_std_name(
 
 if we directly open the select_course.csv, course_info.json , They will perform in form below:
 
-![image-20210411170902230](C:\Users\jiangli\AppData\Roaming\Typora\typora-user-images\image-20210411170902230.png)
+![image-20210411170902230](\Picture\image-20210411170902230.png)
 
 ​                                                             **select_course.csv**
 
-![image-20210411170739647](C:\Users\jiangli\AppData\Roaming\Typora\typora-user-images\image-20210411170739647.png)
+![image-20210411170739647](\Picture\image-20210411170739647.png)
 
 ​                                                             **course_info.json**
 
@@ -457,7 +458,7 @@ public class JwxtParser {
 
 In order to solve prerequisite more conveniently, we load out the prerequisite and save them into file: Pre.csv. In order to make our database as easy to expand as possible. We had to split the long string of prerequisite and separately store them into the table. We used library pandas in python to do this part.
 
-![image-20210411173832123](C:\Users\jiangli\AppData\Roaming\Typora\typora-user-images\image-20210411173832123.png)
+![image-20210411173832123](\Picture\image-20210411173832123.png)
 
 ​                                                               **Pre.csv**
 
@@ -1035,7 +1036,7 @@ GRANT CONNECT ON DATABASE "CS307_SustechStudentClass" TO worker; --将数据库�
 
 And then we check out the result with SQL shell:
 
-![image-20210411202027912](C:\Users\jiangli\AppData\Roaming\Typora\typora-user-images\image-20210411202027912.png)
+![image-20210411202027912](\Picture\image-20210411202027912.png)
 
 Then we drop user student(which was created before to test) and grant all privileges to worker:
 
@@ -1046,7 +1047,7 @@ GRANT ALL PRIVILEGES ON DATABASE "CS307_SustechStudentClass" TO worker;
 
 Then we turn to SQL Shell to check the updated result:
 
-![image-20210411202814795](C:\Users\jiangli\AppData\Roaming\Typora\typora-user-images\image-20210411202814795.png)
+![image-20210411202814795](\Picture\image-20210411202814795.png)
 
 We can say that it's very simple and convenient for user privilege operations in DBMS.
 
