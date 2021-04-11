@@ -127,7 +127,7 @@ connect table-course to table-class
 
 
 
-     #### <1.4> Prerequisite Table
+#### <1.4> Prerequisite Table
 
 **This part is significant for its unique implementation**
 
@@ -252,7 +252,38 @@ As we can see here, it is far away from our expectation. So we turn to the Java 
 ##### select_course.csv-java-preprocessing:
 
 ```java
+public static void parseStudent() throws IOException {
+        students = new ArrayList<>();
+        File student_info = new File("src/main/java/data/select_course.csv");
+        BufferedReader reader = null;
+        try {
+            String one_student = null;
+            reader = new BufferedReader(new FileReader(student_info));
+            while ((one_student = reader.readLine()) != null) {
+                String[] s_info = one_student.split(",");
+                Student student = new Student(s_info);
+                students.add(student);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            reader.close();
+        }
+    }
 
+static void putStudentIntoData() throws IOException {
+        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
+                "byll",
+                "123456");
+
+        //将学生信息导入数据库
+        DatabaseConnnect.SendToDataBase(students);
+        DatabaseConnnect.SendToDataBase(students,10);
+        DatabaseConnnect.CloseConnection();
+        //将学生信息写入sql文件
+        DatabaseConnnect.writeToFileS(students);
+
+    }
 ```
 
 
@@ -260,38 +291,17 @@ As we can see here, it is far away from our expectation. So we turn to the Java 
 ##### course_info.json-java-preprocessing:
 
 ```java
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-public class JwxtParser {
-    public static List<CourseRAW> courses;
-    static DatabaseConnnect databaseConnnect;
-    static HashMap<String, Course> courseHashMap;
-    static ArrayList<Class> classes;
-    static HashSet<Teacher> teachers;
-    static HashMap<String,Teacher> teacherHashMap;
-    static ArrayList<Student> students;
-    // Run as: jshell JwxtParser.java <json file>
-    public static void main(String[] args) throws IOException {
-        Path path = Path.of(args[0]);
+//用作导入json文件
+    public static void parseCourseJson() throws IOException {
+        Path path = Path.of("src/main/java/data/course_info.json");
         String content = Files.readString(path);
         content = content.replaceAll("）", ")");
         content = content.replaceAll("（", "(");
         Gson gson = new Gson();
         courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>() {
         }.getType());
-//        parseCourseRAW();
-//        putJWXTinData();
-//        exportPre();
-        parseStudent();
-        putStudentIntoData();
     }
+//用于导出先修课文件
     public static void exportPre() {
         HashSet<String> hasAdded = new HashSet<>();
         FileOutputStream out = null;
@@ -301,8 +311,11 @@ public class JwxtParser {
             out = new FileOutputStream("src/main/java/data/Pre.csv");
             osw = new OutputStreamWriter(out, StandardCharsets.UTF_8);
             bw = new BufferedWriter(osw);
+
+
             //加上UTF-8文件的标识字符
             out.write(new byte[]{(byte) 0xEF, (byte) 0xBB, (byte) 0xBF});
+
             for (CourseRAW c : courses) {
                 if (hasAdded.contains(c.courseId)) continue;
                 String insert = String.format("%s,%s\n", c.courseId, c.prerequisite);
@@ -310,6 +323,7 @@ public class JwxtParser {
                 bw.append(insert);
                 hasAdded.add(c.courseId);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -321,33 +335,15 @@ public class JwxtParser {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
         }
     }
-    public static void parseStudent() throws IOException {
-        students = new ArrayList<>();
-        File student_info = new File("src/main/java/data/select_course.csv");
-        BufferedReader reader = null;
-        try {
-            String one_student = null;
-            reader = new BufferedReader(new FileReader(student_info));
-            while ((one_student = reader.readLine()) != null) {
-//                System.out.println(one_student);
-                String[] s_info = one_student.split(",");
-                Student student = new Student(s_info);
-                students.add(student);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            reader.close();
-        }
-    }
-    public static void parseCourseRAW() {
+//用于解析从json导入的数据,放进自己想要的数据结构中
+public static void parseCourseRAW() {
         courseHashMap = new HashMap<>();
         classes = new ArrayList<>();
         teachers = new HashSet<>();
         teacherHashMap=new HashMap<>();
-        HashSet<Location> locations = new HashSet<>();
         for (CourseRAW course_raw : courses) {
             //Course info_去重
             if (!courseHashMap.containsKey(course_raw.courseName.trim())) {
@@ -362,7 +358,6 @@ public class JwxtParser {
             }
             //Class info 不需要去重
             Class clAss = new Class(course_raw.className.trim(), courseHashMap.get(course_raw.courseName.trim()));
-//            clAss.class_info_list.addAll(course_raw.classList);
             for (ClassListRAW cl : course_raw.classList) {
                 ClassList classList = new ClassList(cl);
                 clAss.class_info_list.add(classList);
@@ -385,19 +380,26 @@ public class JwxtParser {
                     teacherHashMap.put(teacher.names, teacher);
                 }
             }
+
             classes.add(clAss);
+
         }
     }
+//将course信息导入数据库
     public static void putJWXTinData(){
         databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
                 "byll",
                 "123456");
+
         for (Course c:courseHashMap.values()) {
             DatabaseConnnect.SendToDataBase(c);
+
         }
+
         for (Teacher teacher:teachers){
             DatabaseConnnect.SendToDataBase(teacher);
         }
+
         for (Class c:classes){
             DatabaseConnnect.SendToDataBase(c);
             DatabaseConnnect.SendToDataBase(c.course,c);
@@ -406,54 +408,10 @@ public class JwxtParser {
             }
             DatabaseConnnect.SendToDataBase(c,1);
         }
-        DatabaseConnnect.CloseConnection();
-    }
-    static void putStudentIntoData() throws IOException {
-        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
-                "byll",
-                "123456");
-//        long size = students.size();
-//        long now = 0;
-//        long total = 0;
-        DatabaseConnnect.SendToDataBase(students);
-        DatabaseConnnect.SendToDataBase(students,10);
-        DatabaseConnnect.CloseConnection();
-//        DatabaseConnnect.writeToFile(students);
-//        DatabaseConnnect.openFileWrite();
-//        for (Student s : students) {
-////            DatabaseConnnect.SendToDataBase(s);
-//            DatabaseConnnect.openFileWrite();
-//            DatabaseConnnect.writeToFile(s);
-//            now++;
-//            if (now / 1000 > 0) {
-//                total += now;
-//                now = 0;
-//                System.out.println(String.format("%d/%d has done", total, size));
-//            }
-//        }
-//        DatabaseConnnect.closeFileWrite();
-//        DatabaseConnnect.CloseConnection();
-    }
-    class CourseRAW {
-        public int totalCapacity;
-        public String courseId;
-        public String prerequisite;
-        public String teacher;
-        public ClassListRAW[] classList;
-        public int courseHour;
-        public float courseCredit;
-        public String courseName;
-        public String courseDept;
-        public String className;
-    }
-    class ClassListRAW {
-        public int[] weekList;
-        public String location;
-        public String classTime;
-        public int weekday;
-    }
-}
 
+
+        DatabaseConnnect.CloseConnection();
+    }
 ```
 
 In order to solve prerequisite more conveniently, we load out the prerequisite and save them into file: Pre.csv. In order to make our database as easy to expand as possible. We had to split the long string of prerequisite and separately store them into the table. We used library pandas in python to do this part.
@@ -647,17 +605,18 @@ Then we load the data from .csv file and store them into our DB step by step. We
 
 At last, we use count() command as well as the error warning in datagrib itself to ensure all the data are successfully imported into our table. 
 
+```sql
+select count(*)
+from student
+```
 
 
 
+Result:
 
+![Snipaste_2021-04-12_00-22-42](Picture\Snipaste_2021-04-12_00-22-42.png)
 
-
-
-
-
-
-
+Which matches the number of lines of csv.
 
 
 
@@ -1052,6 +1011,116 @@ Then we turn to SQL Shell to check the updated result:
 We can say that it's very simple and convenient for user privilege operations in DBMS.
 
 #### <3.5> Database index and file IO
+
+
+
+#### <3.6> Performance comparison
+
+
+
+
+
+#### <3.7> Accessing database by web
+
+It's may be hard for us to manipulate database directly to access some data. So we create a web application for easier show our powerful database.
+
+##### Environment
+
+We use python as server and web as application for cross platform access. For python we use package **flask** but for web we make it for ourselves(so it may be ugly).
+
+##### Accessing as a admin
+
+When we login as admin, we can see a panel and we put data like this:
+
+![Web1](\Picture\Web1.png)
+
+We made the most powerful prerequisite design, so we must show it off.
+
+![Web3](Picture\Web3.png)
+
+The **prerequisite** like this:
+
+```
+(数据库原理 或者 (数据结构与算法分析 并且 (计算机组成原理 或者 数字逻辑) )或者 如何像于德华一样帅)
+```
+
+We can even add a teacher:
+
+![Web4](Picture\Web4.png)
+
+##### Accessing as a student
+
+Now it's time for us to check our insert result.
+
+Firstly we login.
+
+![Web6](\Picture\Web6.png)
+
+And we got chart like this:
+
+![Web5](Picture\Web5.png)
+
+We can check if this student qualified for some lecture:
+
+![Web7](Picture\Web7.png)
+
+That's all for what we made to make the data more comfortable to get. We won't post the detail about how we realize our server and web(But you can check this source code ```https://github.com/baiyanlali/sustech_student_class_web```). But we can share how we interact with database.
+
+We fetch data rows and process them to make them like json, and put them back to web.
+
+```python
+def pre(cid, sid):
+    db = psy.connect(database='CS307_SustechStudentClass', user='byll', password='123456', host='10.17.118.214',
+                     port='5432')
+    cur = db.cursor()
+    cur.execute("set search_path = 'Public'")
+
+    # get pre list and done
+    cur.execute("""select p.standard_name, p.num
+        from
+        (select standard_name, num
+        from pre_std_name
+        where host_courseid='%s')p
+        join (select c.standard_name
+            from coursedone
+            join course c
+            on c.courseid=coursedone.course_id
+            where coursedone.student_id='%s')q
+        on p.standard_name=q.standard_name; """ % (cid, sid))
+    rows = cur.fetchall()
+    done = []
+    pre_list = []
+    for i, j in rows:
+        done.append(i)
+        pre_list.append(j)
+
+    # get encode
+    cur.execute("""select encode_pattern, length
+            from pre_encode
+            where course_id='%s'""" % (cid))
+    rows2 = cur.fetchall()
+    encode_r = rows2[0][0]
+    length_r = rows2[0][1]
+
+
+    #get raw expression of pre
+    cur.execute("""select prerequisite
+                from course
+                where courseid='%s'""" % (cid))
+    rows3 = cur.fetchall()
+    raw_pre=rows3[0][0]
+
+    check=check_satisfy(encode_r,length_r, pre_list)
+
+    if check==1 or length_r==0:
+        reply=True
+    else:
+        reply=False
+    t={'list':done,'qualified':reply, 'pres':raw_pre}
+    t=json.dumps(t)
+    tt='%s(%s)'%('pre_course_query',t)
+    return tt
+```
 
 
 
