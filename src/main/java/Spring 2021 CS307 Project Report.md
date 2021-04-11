@@ -10,11 +10,11 @@
 
 ## 2. Group info and Contribution
 
-| Student Name: | Student ID: | Specific contribution content | Percentage |
-| :------------ | :---------- | ----------------------------- | ---------- |
-| Tan           |             |                               |            |
-| Zhao          |             |                               |            |
-| Jiang         |             |                               |            |
+| Student Name:        | Student ID: | Specific contribution content | Percentage |
+| :------------------- | :---------- | ----------------------------- | ---------- |
+| Tan                  |             |                               |            |
+| Zhao Yunlong(赵云龙) | 11911309    |                               |            |
+| Jiang                |             |                               |            |
 
 
 
