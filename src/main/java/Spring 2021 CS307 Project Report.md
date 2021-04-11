@@ -13,7 +13,7 @@
 | Student Name:        | Student ID: | Specific contribution content      | Percentage |
 | :------------------- | :---------- | ---------------------------------- | ---------- |
 | Tan Sixu(谈思序)     | 11911627    | Prerequisite design, Python server | 33.3%      |
-| Zhao Yunlong(赵云龙) | 11911309    |                                    | 33.3%      |
+| Zhao Yunlong(赵云龙) | 11911309    | Database import, web               | 33.3%      |
 | Jiang Runzhe(蒋润喆) | 11912511    | Database design, High currency,    | 33.3%      |
 | Andy Lau(于德华)     | 88015127    | Spiritual leader(逃げる)           | 0.1%       |
 
@@ -39,7 +39,7 @@ In this project, we want to use DBMS to implement a multi-dimension educational 
 
 ###   Task 1 Database Design
 
-    #### <1.1> The structure of the whole table 
+#### <1.1> The structure of the whole table 
 
 ![Table_Stucture](Picture\Table_Stucture.png)
 
@@ -1011,7 +1011,7 @@ public class HCM implements Runnable {
 
 In this file, we simulate 100 users using the select function at almost the same time and record the total time. This help test the efficiency of our database. The test time is:   
 
-![image-20210411230615503](../AppData/Roaming/Typora/typora-user-images/image-20210411230615503.png)
+![A11](Picture/A11.jpg)
 
 We can see from the result that there still remains a lot of room for improvement. Our group member still learned a lot through analyzing this problem and did a lot of research on it. We list some solution for further study and optimizing:
 
@@ -1023,7 +1023,7 @@ We can see from the result that there still remains a lot of room for improvemen
 
 Since the ddl is close, we don't have much time to practice them one by one . So, we chose the first solution only: created the unique key to improve the performance, The second time result is shown below:
 
-![image-20210412004414989](../AppData/Roaming/Typora/typora-user-images/image-20210412004414989.png)
+![A22](Picture/A22.jpg)
 
 As we can see, the performance is improved. In the future, we will do more modification to manage high concurrency problems.
 
@@ -1040,7 +1040,7 @@ GRANT CONNECT ON DATABASE "CS307_SustechStudentClass" TO worker; --将数据库�
 
 And then we check out the result with SQL shell:
 
-![image-20210411202027912](\Picture\image-20210411202027912.png)
+![image-20210411202027912](Picture\image-20210411202027912.png)
 
 Then we drop user student(which was created before to test) and grant all privileges to worker:
 
@@ -1051,7 +1051,7 @@ GRANT ALL PRIVILEGES ON DATABASE "CS307_SustechStudentClass" TO worker;
 
 Then we turn to SQL Shell to check the updated result:
 
-![image-20210411202814795](\Picture\image-20210411202814795.png)
+![image-20210411202814795](Picture\image-20210411202814795.png)
 
 We can say that it's very simple and convenient for user privilege operations in DBMS.
 
@@ -1282,7 +1282,7 @@ We use python as server and web as application for cross platform access. For py
 
 When we login as admin, we can see a panel and we put data like this:
 
-![Web1](\Picture\Web1.png)
+![Web1](Picture\Web1.png)
 
 We made the most powerful prerequisite design, so we must show it off.
 
@@ -1304,7 +1304,7 @@ Now it's time for us to check our insert result.
 
 Firstly we login.
 
-![Web6](\Picture\Web6.png)
+![Web6](Picture\Web6.png)
 
 And we got chart like this:
 
@@ -1376,7 +1376,11 @@ def pre(cid, sid):
 
 ## 6. Conclusion
 
-Through this project ,we 
+Through this project, we have better understood the principles and paradigms of database design. Specifically, we learnt to utilize E-R diagram to assist designing and clarify our flow. Meanwhile, we also discovered that everything is more sophisticated than aforehand considering when you zoom in to a certain extant. By implementing comparison between files and DML, we eventually agree that database is very clever.
+
+Now, it's 2:49 AM, It's time to sleep.
+
+お疲れ様でした。
 
 
 
