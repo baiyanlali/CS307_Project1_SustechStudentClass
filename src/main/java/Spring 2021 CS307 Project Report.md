@@ -658,7 +658,7 @@ from student
 where college like '阿兹卡班%';
 ```
 
-<img src="大数据导论/project_2021/project_data/qt1.jpg" alt="qt1" style="zoom:67%;" />
+![qt1](Picture/qt1.jpg)
 
 JAVA:
 
@@ -677,7 +677,7 @@ static void q1() throws IOException {
     }
 ```
 
-![Q1_file](大数据导论/project_2021/project_data/Q1_file.png)
+![Q1_file](Picture/Q1_file.png)
 
 ##### comparison-2:
 
@@ -693,7 +693,7 @@ where college =
        where name = '周工周');
 ```
 
-<img src="大数据导论/project_2021/project_data/qt2.jpg" alt="qt2" style="zoom:67%;" />
+![qt2](Picture/qt2.jpg)
 
 JAVA:
 
@@ -754,7 +754,7 @@ JAVA:
 
 ```
 
-<img src="大数据导论/project_2021/project_data/Q2_file.png" alt="Q2_file" style="zoom:67%;" />
+![Q2_file](Picture/Q2_file.png)
 
 ##### comparison-3：
 
@@ -770,7 +770,7 @@ where course_id = (select cs.courseid
                    where coursename = '数据库原理');
 ```
 
-<img src="大数据导论/project_2021/project_data/qt3.jpg" alt="qt3" style="zoom:67%;" />
+![qt3](Picture/qt3.jpg)
 
 JAVA:
 
@@ -803,7 +803,7 @@ static void q3() throws IOException {
 
 ```
 
-<img src="大数据导论/project_2021/project_data/Q3_file.png" alt="Q3_file" style="zoom:67%;" />
+![Q3_file](Picture/Q3_file.png)
 
 ##### comparison-4：
 
@@ -840,7 +840,7 @@ from cntp
 where cnt2 = (select m from mx);
 ```
 
-![qt4_1](大数据导论/project_2021/project_data/qt4_1.jpg)
+![qt4_1](Picture/qt4_1.jpg)
 
 JAVA:
 
@@ -890,7 +890,7 @@ static void q4() throws IOException{
     }
 ```
 
-![Q4_file](大数据导论/project_2021/project_data/Q4_file.png)
+![Q4_file](Picture/Q4_file.png)
 
 
 
