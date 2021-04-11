@@ -40,7 +40,7 @@ In this project, we want to use DBMS to implement a multi-dimension educational 
 
     #### <1.1> The structure of the whole table 
 
-<img src="C:\Users\jiangli\Desktop\Table_Stucture.png" alt="Table_Stucture" title="style=&quot;zoom:33%;" style="zoom:73%;" />
+![Table_Stucture](E:\大数据project\CS307_Project1_SustechStudentClass\src\main\java\Picture\Table_Stucture.png)
 
 
 
@@ -666,51 +666,266 @@ At last, we use count() command as well as the error warning in datagrib itself 
 
  ### Task 3 Compare Database And File
 
-#### <3.1> Data and environment
+#### <3.1> Data and environment statement
 
-All the data are remained. We never change any origin data for convenience. All the disposals are accomplished in the program. 
+All the data are remained. We never change any origin data for convenience. All the disposals are accomplished through the program. 
 
 All of our team-members' operating system is windows-10. We chose Java and Python to organize the data.
 
 
 
-#### <3.2> Experiment design
+#### <3.2> Efficiency comparison about query between DBMS and JAVA
+
+This is the comparison diagram we make between DBMS and JAVA for some query command.
+
+![compare](compare.jpg)
+
+According to the result of these four comparison,  we found that It's much more efficient to use DBMS when we do command like count and fuzzy match for DBMS can do much more better than simply iteration and match in JAVA. And for other query command like select, DBMS also wins the JAVA , but the  superiority is not obivious.
 
 ##### comparison-1:
 
+DBMS:
 
+```sql
+--query test1
+select count(*) as azk_ss_count
+from student
+where college like '阿兹卡班%';
+```
 
+<img src="大数据导论/project_2021/project_data/qt1.jpg" alt="qt1" style="zoom:67%;" />
 
+JAVA:
+
+```java
+static void q1() throws IOException {
+        System.out.println("Start to search student count of 阿兹卡班");
+        long startTime=System.currentTimeMillis();
+        JwxtParser.parseStudent();
+        long cnt=0;
+        for (Student s:JwxtParser.students){
+            if(s.college.equals("阿兹卡班(Azkaban)"))
+                cnt++;
+        }
+        System.out.println("Student in Azkaban:"+cnt);
+        System.out.println(String.format("Use %d ms time",System.currentTimeMillis()-startTime));
+    }
+```
+
+![Q1_file](大数据导论/project_2021/project_data/Q1_file.png)
 
 ##### comparison-2:
 
+DBMS:
 
+```sql
+--query test 2
+select s.student_id, s.name, s.gender, s.college
+from student s
+where college =
+      (select college
+       from student
+       where name = '周工周');
+```
 
+<img src="大数据导论/project_2021/project_data/qt2.jpg" alt="qt2" style="zoom:67%;" />
 
+JAVA:
+
+```java
+ static void q2() throws IOException {
+        System.out.println("Start to search the students with the same college of ZhouGongZhou");
+        long startTime=System.currentTimeMillis();
+        JwxtParser.parseStudent();
+        String name="周工周";
+        ArrayList<Student>[] students=new ArrayList[5];
+        for (int i = 0; i < 5; i++) {
+            students[i]=new ArrayList<>();
+        }
+        int index=-1;
+        for (Student s:JwxtParser.students){
+            if(s.name.equals(name)){
+                switch (s.college){
+                    case "阿兹卡班(Azkaban)":
+                        index=0;
+                        break;
+                    case "斯莱特林(Slytherin)":
+                        index=1;
+                        break;
+                    case"拉文克劳(Ravenclaw)":
+                        index=2;
+                        break;
+                    case"格兰芬多(Gryffindor)":
+                        index=3;
+                        break;
+                    case"赫奇帕奇(Hufflepuff)":
+                        index=4;
+                        break;
+                }
+            }
+            switch (s.college){
+                case "阿兹卡班(Azkaban)":
+                    students[0].add(s);
+                    break;
+                case "斯莱特林(Slytherin)":
+                    students[1].add(s);
+                    break;
+                case"拉文克劳(Ravenclaw)":
+                    students[2].add(s);
+                    break;
+                case"格兰芬多(Gryffindor)":
+                    students[3].add(s);
+                    break;
+                case"赫奇帕奇(Hufflepuff)":
+                    students[4].add(s);
+                    break;
+            }
+        }
+        for (Student s:students[index]){
+            System.out.println(s.toString());
+        }
+        System.out.println(String.format("Use %d ms time",System.currentTimeMillis()-startTime));
+    }
+
+```
+
+<img src="大数据导论/project_2021/project_data/Q2_file.png" alt="Q2_file" style="zoom:67%;" />
 
 ##### comparison-3：
 
+DBMS:
 
+```sql
+--query test 3
+select distinct student.student_id, name, college
+from student
+         join coursedone c on student.student_id = c.student_id
+where course_id = (select cs.courseid
+                   from course cs
+                   where coursename = '数据库原理');
+```
 
+<img src="大数据导论/project_2021/project_data/qt3.jpg" alt="qt3" style="zoom:67%;" />
 
+JAVA:
+
+```java
+static void q3() throws IOException {
+        System.out.println("Start to search the students learned database");
+        long startTime=System.currentTimeMillis();
+        JwxtParser.parseCourseJson();
+        JwxtParser.parseCourseRAW();
+        JwxtParser.parseStudent();
+        String name="数据库原理";
+        String course_id="";
+        for (Course c:JwxtParser.courseHashMap.values()) {
+            if(c.course_name.equals(name)){
+                course_id=c.course_id;
+                break;
+            }
+        }
+
+        for (Student s:JwxtParser.students){
+            for (String cc:s.courses_done){
+                if(cc.equals(course_id)){
+                    System.out.println(s.toString());
+                }
+            }
+        }
+
+        System.out.println(String.format("Use %d ms time",System.currentTimeMillis()-startTime));
+    }
+
+```
+
+<img src="大数据导论/project_2021/project_data/Q3_file.png" alt="Q3_file" style="zoom:67%;" />
 
 ##### comparison-4：
 
+DBMS:
 
+```sql
+--query test4
+with csc as
+         (select courseid, count(*) cnt
+          from class c
+                   join cc_linker cl on c.classid = cl.classid
+          where courseid like 'CS%'
+          group by courseid),
 
+     greater as
+         (select courseid
+          from csc
+          where cnt > 3),
 
+     cntp as
+         (select courseid, count(*) cnt2
+          from greater
+                   join coursedone cd on greater.courseid = cd.course_id
+          group by courseid),
 
-##### comparison-5
+     mx as
+         (select max(cnt2) m
+          from cntp
+         )
 
+select cntp.courseid, coursename
+from cntp
+         join course on cntp.courseid = course.courseid
+where cnt2 = (select m from mx);
+```
 
+![qt4_1](大数据导论/project_2021/project_data/qt4_1.jpg)
 
+JAVA:
 
+```java
+static void q4() throws IOException{
+        System.out.println("Start to find the class required");
+        long startTime=System.currentTimeMillis();
+        JwxtParser.parseCourseJson();
+        JwxtParser.parseCourseRAW();
+        JwxtParser.parseStudent();
+        ArrayList<String> courses=new ArrayList<>();
+        for (Course c:JwxtParser.courseHashMap.values()) {
+            if(c.classes.size()>=3 && c.course_departure.equals("计算机科学与工程系"))
+                courses.add(c.course_id);
+        }
+        HashMap<String,Long> course_count = new HashMap<>();
+        Long max_cnt=0l;
+        String max_str="";
+        for (Student s:JwxtParser.students) {
+            for (String c:courses) {
 
-##### comparison-6
+                Long tmp=course_count.get(c);
+                if(tmp==null)tmp=0l;
+                if(s.courses_done.contains(c))
+                    course_count.put(c,tmp+1);
+                if(tmp+1>max_cnt){
+                    max_cnt=tmp+1;
+                    max_str=c;
+                }
+            }
+        }
+        System.out.println(max_str);
+        System.out.println(String.format("Use %d ms time",System.currentTimeMillis()-startTime));
+    }
 
+    static void inJson() throws IOException{
+        System.out.println("Input json");
+        long startTime=System.currentTimeMillis();
+        JwxtParser.parseCourseJson();
+        JwxtParser.parseCourseRAW();
+        System.out.println(String.format("Use %d ms time",System.currentTimeMillis()-startTime));
+        System.out.println("Input csv");
+        startTime=System.currentTimeMillis();
+        JwxtParser.parseStudent();
+        System.out.println(String.format("Use %d ms time",System.currentTimeMillis()-startTime));
 
+    }
+```
 
-
+![Q4_file](大数据导论/project_2021/project_data/Q4_file.png)
 
 
 
@@ -791,7 +1006,7 @@ public class HCM implements Runnable {
 
 In this file, we simulate 100 users using the select function at almost the same time and record the total time. This help test the efficiency of our database. The test time is:   
 
-
+![image-20210411230615503](../AppData/Roaming/Typora/typora-user-images/image-20210411230615503.png)
 
 We can see from the result that there still remains a lot of room for improvement. Our group member still learned a lot through analyzing this problem and did a lot of research on it. We list some solution for further study and optimizing:
 
@@ -803,7 +1018,7 @@ We can see from the result that there still remains a lot of room for improvemen
 
 Since the ddl is close, we don't have much time to practice them one by one . So, we chose the first solution only: created the unique key to improve the performance, The second time result is shown below:
 
-
+![image-20210412004414989](../AppData/Roaming/Typora/typora-user-images/image-20210412004414989.png)
 
 As we can see, the performance is improved. In the future, we will do more modification to manage high concurrency problems.
 
@@ -839,13 +1054,9 @@ We can say that it's very simple and convenient for user privilege operations in
 
 
 
-#### <3.6> Performance comparison
-
-
-
 ## 6. Conclusion
 
-
+Through this project ,we 
 
 
 
