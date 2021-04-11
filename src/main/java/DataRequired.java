@@ -146,5 +146,13 @@ class Student {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", college='" + college + '\'' +
+                ", student_id='" + student_id + '\'' +
+                '}';
+    }
 }

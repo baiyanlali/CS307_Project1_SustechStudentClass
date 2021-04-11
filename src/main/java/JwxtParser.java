@@ -42,6 +42,16 @@ public class JwxtParser {
 
     }
 
+    public static void parseCourseJson() throws IOException {
+        Path path = Path.of("src/main/java/data/course_info.json");
+        String content = Files.readString(path);
+        content = content.replaceAll("）", ")");
+        content = content.replaceAll("（", "(");
+        Gson gson = new Gson();
+        courses = gson.fromJson(content, new TypeToken<List<CourseRAW>>() {
+        }.getType());
+    }
+
     public static void exportPre() {
         HashSet<String> hasAdded = new HashSet<>();
         FileOutputStream out = null;
@@ -104,7 +114,6 @@ public class JwxtParser {
         classes = new ArrayList<>();
         teachers = new HashSet<>();
         teacherHashMap=new HashMap<>();
-        HashSet<Location> locations = new HashSet<>();
         for (CourseRAW course_raw : courses) {
             //Course info_去重
             if (!courseHashMap.containsKey(course_raw.courseName.trim())) {
@@ -176,16 +185,16 @@ public class JwxtParser {
     }
 
     static void putStudentIntoData() throws IOException {
-        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
-                "byll",
-                "123456");
+//        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
+//                "byll",
+//                "123456");
 //        long size = students.size();
 //        long now = 0;
 //        long total = 0;
-        DatabaseConnnect.SendToDataBase(students);
-        DatabaseConnnect.SendToDataBase(students,10);
-        DatabaseConnnect.CloseConnection();
-//        DatabaseConnnect.writeToFile(students);
+//        DatabaseConnnect.SendToDataBase(students);
+//        DatabaseConnnect.SendToDataBase(students,10);
+//        DatabaseConnnect.CloseConnection();
+        DatabaseConnnect.writeToFileS(students);
 //        DatabaseConnnect.openFileWrite();
 //        for (Student s : students) {
 ////            DatabaseConnnect.SendToDataBase(s);
