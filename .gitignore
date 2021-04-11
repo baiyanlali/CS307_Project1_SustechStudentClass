@@ -10,3 +10,5 @@ src/main/java/data/Pre.csv
 src/main/java/data/Pre.csv
 *.xml
 *.sql
+src/main/java/data/CS307_SustechStudentClass_Public_coursedone.csv
+src/main/java/data/CS307_SustechStudentClass_Public_student.csv

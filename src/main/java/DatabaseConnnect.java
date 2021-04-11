@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class DatabaseConnnect {
+public class DatabaseConnnect{
     public static void main(String[] args) {
 
     }
@@ -93,6 +93,28 @@ public class DatabaseConnnect {
         }
 
 //        File fout2=new File("src/main/java/data/students.sql");
+    }
+
+    static void writeToFileS(ArrayList<Student>ss){
+        try{
+            Long time=System.currentTimeMillis();
+            bw1=new BufferedWriter( new FileWriter("src/main/java/data/students.sql"));
+            String sql1 = "insert into Student (name,gender,college,student_id) values (\'%s\',\'%s\',\'%s\',\'%s\')  ON CONFLICT DO NOTHING\n";
+            long i=0;
+            long size=ss.size();
+            for (Student student:ss){
+                bw1.append(String.format(sql1,student.name,student.gender,student.college,student.student_id));
+                i++;
+                if(i%1000==0){
+                    System.out.println(String.format("Run %d of %d data",i,size));
+                }
+            }
+
+            bw1.close();
+            System.out.println(String.format("Run %d ms",System.currentTimeMillis()-time));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     static void writeToFile(Student student){
