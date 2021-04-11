@@ -32,16 +32,17 @@ public class JwxtParser {
         }.getType());
 
 
-//        parseCourseRAW();
-//        putJWXTinData();
+        parseCourseRAW();//解析从json导入的数据,放进自己想要的数据结构中
+        putJWXTinData();//将course信息导入数据库
 
-//        exportPre();
-        parseStudent();
-        putStudentIntoData();
+        exportPre();//导出先修课信息
+        parseStudent();//解析csv导入的学生数据,放进自己想要的数据库中
+        putStudentIntoData();//将student信息导入数据库/文件
 
 
     }
 
+    //用作导入json文件
     public static void parseCourseJson() throws IOException {
         Path path = Path.of("src/main/java/data/course_info.json");
         String content = Files.readString(path);
@@ -97,7 +98,6 @@ public class JwxtParser {
             String one_student = null;
             reader = new BufferedReader(new FileReader(student_info));
             while ((one_student = reader.readLine()) != null) {
-//                System.out.println(one_student);
                 String[] s_info = one_student.split(",");
                 Student student = new Student(s_info);
                 students.add(student);
@@ -128,7 +128,6 @@ public class JwxtParser {
             }
             //Class info 不需要去重
             Class clAss = new Class(course_raw.className.trim(), courseHashMap.get(course_raw.courseName.trim()));
-//            clAss.class_info_list.addAll(course_raw.classList);
             for (ClassListRAW cl : course_raw.classList) {
                 ClassList classList = new ClassList(cl);
                 clAss.class_info_list.add(classList);
@@ -185,34 +184,20 @@ public class JwxtParser {
     }
 
     static void putStudentIntoData() throws IOException {
-//        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
-//                "byll",
-//                "123456");
-//        long size = students.size();
-//        long now = 0;
-//        long total = 0;
-//        DatabaseConnnect.SendToDataBase(students);
-//        DatabaseConnnect.SendToDataBase(students,10);
-//        DatabaseConnnect.CloseConnection();
-        DatabaseConnnect.writeToFileS(students);
-//        DatabaseConnnect.openFileWrite();
-//        for (Student s : students) {
-////            DatabaseConnnect.SendToDataBase(s);
-//            DatabaseConnnect.openFileWrite();
-//            DatabaseConnnect.writeToFile(s);
-//            now++;
-//            if (now / 1000 > 0) {
-//                total += now;
-//                now = 0;
-//                System.out.println(String.format("%d/%d has done", total, size));
-//            }
-//        }
-//        DatabaseConnnect.closeFileWrite();
+        databaseConnnect = new DatabaseConnnect("jdbc:postgresql://localhost:5432/CS307_SustechStudentClass",
+                "byll",
+                "123456");
 
-//        DatabaseConnnect.CloseConnection();
+        //将学生信息导入数据库
+        DatabaseConnnect.SendToDataBase(students);
+        DatabaseConnnect.SendToDataBase(students,10);
+        DatabaseConnnect.CloseConnection();
+        //将学生信息写入sql文件
+        DatabaseConnnect.writeToFileS(students);
+
     }
 
-
+    //json初步导入Course数据
     class CourseRAW {
 
         public int totalCapacity;
@@ -226,7 +211,7 @@ public class JwxtParser {
         public String courseDept;
         public String className;
     }
-
+    //json初步导入Classlist数据
     class ClassListRAW {
         public int[] weekList;
         public String location;
