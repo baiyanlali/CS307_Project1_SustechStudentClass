@@ -1013,13 +1013,86 @@ We can say that it's very simple and convenient for user privilege operations in
 
 #### <3.5> Database index and file IO
 
+Search without index
 
+```
+select *
+from student
+where name='喻古春'
+```
+
+
+
+![with_out_index](Picture/with_out_index.png)
+
+![with_out_index](Picture/with_out_index.png)
+
+Then we add
+
+```sql
+create index student_name on student(student_id)
+```
+
+![Snipaste_2021-04-12_01-44-11](Picture/Snipaste_2021-04-12_01-44-11.png)
+
+And the second search, the speed will be faster
 
 #### <3.6> Performance comparison
 
+query test
+>1. Count the number of all students that belong to Azkaban college.
+```sql
+select count(*) as azk_ss_count
+from student
+where college like '阿兹卡班%';
+```
+>2. Output the sid, name, and gender of students who are in the same college as "周工周"
+```sql
+select s.student_id, s.name, s.gender, s.college
+from student s
+where college =
+      (select college
+       from student
+       where name = '周工周');
+```
+>3. The sid, name and college of students who have taken the course named "数据库原理"
+```sql
+select distinct student.student_id, name, college
+from student
+         join coursedone c on student.student_id = c.student_id
+where course_id = (select cs.courseid
+                   from course cs
+                   where coursename = '数据库原理');
+```
+>4. The course_id of such a course that has most number of students who have taken it among the courses conducted by CS department that have more than 3 different classes. 
+```sql
+with csc as
+         (select courseid, count(*) cnt
+          from class c
+                   join cc_linker cl on c.classid = cl.classid
+          where courseid like 'CS%'
+          group by courseid),
 
+     greater as
+         (select courseid
+          from csc
+          where cnt > 3),
 
+     cntp as
+         (select courseid, count(*) cnt2
+          from greater
+                   join coursedone cd on greater.courseid = cd.course_id
+          group by courseid),
 
+     mx as
+         (select max(cnt2) m
+          from cntp
+         )
+select cntp.courseid, coursename
+from cntp
+         join course on cntp.courseid = course.courseid
+where cnt2 = (select m from mx);
+```
 
 #### <3.7> Accessing database by web
 
