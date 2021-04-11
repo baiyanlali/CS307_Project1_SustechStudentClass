@@ -41,8 +41,7 @@ In this project, we want to use DBMS to implement a multi-dimension educational 
 
     #### <1.1> The structure of the whole table 
 
-![Table_Stucture](E:\大数据project\CS307_Project1_SustechStudentClass\src\main\java\Picture\Table_Stucture.png)
-<img src="\Picture\Table_Stucture.png" alt="Table_Stucture" title="style=&quot;zoom:33%;" style="zoom:73%;" />
+![Table_Stucture](Picture\Table_Stucture.png)
 
 
 
@@ -149,8 +148,6 @@ connect table-course to table-class
 | length         | integer   |                   |
 
 **Explanation**:
-
-
 
 
 
