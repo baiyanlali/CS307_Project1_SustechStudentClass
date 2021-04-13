@@ -41,9 +41,9 @@ In this project, we want to use DBMS to implement a multi-dimension educational 
 
 #### <1.1> The structure of the whole table 
 
+![Table_Stucture](Picture\Table_Stucture.png)
 
 
-![cc_linker](Picture/cc_linker.png)
 
 #### <1.2> Data Table(except prerequisite)
 
@@ -1269,8 +1269,6 @@ static void q4() throws IOException{
         System.out.println(String.format("Use %d ms time",System.currentTimeMillis()-startTime));
     }
 ```
-
-![TIME-COMP](Picture/TIME-COMP.png)
 
 #### <3.7> Accessing database by web
 
